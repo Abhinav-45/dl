@@ -1,0 +1,16 @@
+team_id: group27
+project_short_name: SCOREMAP
+project_title: Structure-aware grading of handwritten CS answer scripts via Typed Evidence Graphs and Executable Rubrics
+mentor: Replace with faculty/TA mentor
+topic_number: 21
+topic_name: Automated Grading of Handwritten CS Courses' Answer Scripts
+members:
+  - name: Replace Member 1
+    id: Replace ID 1
+    email: replace1@example.com
+  - name: Replace Member 2
+    id: Replace ID 2
+    email: replace2@example.com
+  - name: Replace Member 3
+    id: Replace ID 3
+    email: replace3@example.com

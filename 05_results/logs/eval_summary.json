@@ -1,0 +1,26 @@
+{
+  "generic": {
+    "mae": 2.0,
+    "exact_match": 0.1667,
+    "weighted_kappa": 0.1356,
+    "rubric_item_f1": 0.75,
+    "evidence_f1": 0.5,
+    "region_type_macro_f1": 0.7593
+  },
+  "no_graph": {
+    "mae": 1.6667,
+    "exact_match": 0.1667,
+    "weighted_kappa": 0.2,
+    "rubric_item_f1": 0.7273,
+    "evidence_f1": 0.5,
+    "region_type_macro_f1": 0.7593
+  },
+  "scoremap": {
+    "mae": 1.3333,
+    "exact_match": 0.3333,
+    "weighted_kappa": 0.3878,
+    "rubric_item_f1": 0.7647,
+    "evidence_f1": 0.5417,
+    "region_type_macro_f1": 0.7593
+  }
+}

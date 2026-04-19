@@ -1,0 +1,62 @@
+{
+  "sample_id": "writer03_q4",
+  "writer_id": "writer03",
+  "qid": "Q4",
+  "question_text": "List Coffman conditions for deadlock and briefly explain any one.",
+  "image_path": "images/writer03_q4.png",
+  "regions": [
+    {
+      "id": "n1",
+      "bbox": [
+        58,
+        145,
+        810,
+        235
+      ],
+      "text": "Deadlock needs mutual exclusion and hold wait.",
+      "type_hint": "definition",
+      "metadata": {
+        "line_index": 1
+      }
+    },
+    {
+      "id": "n2",
+      "bbox": [
+        58,
+        240,
+        810,
+        330
+      ],
+      "text": "Resources are not preempted.",
+      "type_hint": "definition",
+      "metadata": {
+        "line_index": 2
+      }
+    }
+  ],
+  "gold": {
+    "total_score": 4.0,
+    "item_hits": {
+      "r1": true,
+      "r2": true,
+      "r3": true,
+      "r4": false,
+      "r5": true
+    },
+    "evidence": {
+      "r1": [
+        "n1"
+      ],
+      "r2": [
+        "n1"
+      ],
+      "r3": [
+        "n2"
+      ],
+      "r4": [],
+      "r5": [
+        "n2"
+      ]
+    }
+  }
+}

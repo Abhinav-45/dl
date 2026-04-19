@@ -1,0 +1,132 @@
+{
+  "sample_id": "writer03_q2",
+  "qid": "Q2",
+  "total_score": 6,
+  "max_marks": 6,
+  "review_flag": true,
+  "item_results": [
+    {
+      "item_id": "r1",
+      "hit": true,
+      "score": 2,
+      "confidence": 0.5068,
+      "evidence_node_ids": [
+        "n1"
+      ],
+      "rationale": "Matched ordered procedural evidence."
+    },
+    {
+      "item_id": "r2",
+      "hit": true,
+      "score": 2,
+      "confidence": 0.639,
+      "evidence_node_ids": [
+        "n1"
+      ],
+      "rationale": "Matched ordered procedural evidence."
+    },
+    {
+      "item_id": "r3",
+      "hit": true,
+      "score": 1,
+      "confidence": 0.8,
+      "evidence_node_ids": [
+        "n2"
+      ],
+      "rationale": "Matched complexity expression o(nlogn)."
+    },
+    {
+      "item_id": "r4",
+      "hit": true,
+      "score": 1,
+      "confidence": 0.8,
+      "evidence_node_ids": [
+        "n2"
+      ],
+      "rationale": "Matched complexity expression o(n)."
+    }
+  ],
+  "typed_evidence_graph": {
+    "nodes": [
+      {
+        "id": "n1",
+        "type": "algorithm_step",
+        "text": "merge sort first divides, later combines arrays",
+        "bbox": [
+          58,
+          145,
+          810,
+          235
+        ],
+        "confidence": 0.55
+      },
+      {
+        "id": "n2",
+        "type": "complexity",
+        "text": "time is O(n log n) and extra array O(n)",
+        "bbox": [
+          58,
+          240,
+          810,
+          330
+        ],
+        "confidence": 0.6
+      }
+    ],
+    "edges": [
+      {
+        "src": "n1",
+        "dst": "n2",
+        "relation": "reading_order"
+      },
+      {
+        "src": "n1",
+        "dst": "n2",
+        "relation": "same_column"
+      },
+      {
+        "src": "n1",
+        "dst": "n2",
+        "relation": "adjacent_down"
+      }
+    ],
+    "rubric_alignment": [
+      {
+        "item_id": "r1",
+        "hit": true,
+        "score": 2,
+        "evidence": [
+          "n1"
+        ],
+        "confidence": 0.5068
+      },
+      {
+        "item_id": "r2",
+        "hit": true,
+        "score": 2,
+        "evidence": [
+          "n1"
+        ],
+        "confidence": 0.639
+      },
+      {
+        "item_id": "r3",
+        "hit": true,
+        "score": 1,
+        "evidence": [
+          "n2"
+        ],
+        "confidence": 0.8
+      },
+      {
+        "item_id": "r4",
+        "hit": true,
+        "score": 1,
+        "evidence": [
+          "n2"
+        ],
+        "confidence": 0.8
+      }
+    ]
+  }
+}

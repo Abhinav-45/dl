@@ -1,0 +1,58 @@
+{
+  "sample_id": "writer03_q5",
+  "writer_id": "writer03",
+  "qid": "Q5",
+  "question_text": "Explain BFS traversal, write queue-based pseudocode, and state the complexity.",
+  "image_path": "images/writer03_q5.png",
+  "regions": [
+    {
+      "id": "n1",
+      "bbox": [
+        58,
+        145,
+        810,
+        235
+      ],
+      "text": "BFS visits level by level.",
+      "type_hint": "definition",
+      "metadata": {
+        "line_index": 1
+      }
+    },
+    {
+      "id": "n2",
+      "bbox": [
+        58,
+        240,
+        810,
+        330
+      ],
+      "text": "Use queue. visited array avoids repetition.",
+      "type_hint": "code",
+      "metadata": {
+        "line_index": 2
+      }
+    }
+  ],
+  "gold": {
+    "total_score": 5.0,
+    "item_hits": {
+      "r1": true,
+      "r2": true,
+      "r3": true,
+      "r4": false
+    },
+    "evidence": {
+      "r1": [
+        "n1"
+      ],
+      "r2": [
+        "n2"
+      ],
+      "r3": [
+        "n2"
+      ],
+      "r4": []
+    }
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "sample_id": "writer02_q1",
+  "writer_id": "writer02",
+  "qid": "Q1",
+  "question_text": "Explain starvation in OS scheduling and illustrate with a Gantt chart.",
+  "image_path": "images/writer02_q1.png",
+  "regions": [
+    {
+      "id": "n1",
+      "bbox": [
+        58,
+        145,
+        810,
+        235
+      ],
+      "text": "Starvation is indefinite waiting.",
+      "type_hint": "definition",
+      "metadata": {
+        "line_index": 1
+      }
+    },
+    {
+      "id": "n2",
+      "bbox": [
+        58,
+        240,
+        810,
+        330
+      ],
+      "text": "Low priority process may not get CPU in unfair priority scheduling.",
+      "type_hint": "concept",
+      "metadata": {
+        "line_index": 2
+      }
+    },
+    {
+      "id": "n3",
+      "bbox": [
+        58,
+        335,
+        840,
+        470
+      ],
+      "text": "Gantt: |P2 0-2|P2 2-4|P2 4-6|P1 6-8|",
+      "type_hint": "diagram_gantt",
+      "metadata": {
+        "line_index": 3,
+        "diagram_segments": [
+          "P2 0-2",
+          "P2 2-4",
+          "P2 4-6",
+          "P1 6-8"
+        ]
+      }
+    }
+  ],
+  "gold": {
+    "total_score": 4.0,
+    "item_hits": {
+      "r1": true,
+      "r2": true,
+      "r3": true,
+      "r4": false
+    },
+    "evidence": {
+      "r1": [
+        "n1"
+      ],
+      "r2": [
+        "n2"
+      ],
+      "r3": [
+        "n3"
+      ],
+      "r4": []
+    }
+  }
+}

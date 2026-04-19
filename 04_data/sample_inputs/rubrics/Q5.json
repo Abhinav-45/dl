@@ -1,0 +1,36 @@
+{
+  "qid": "Q5",
+  "question_type": "graph_algorithm",
+  "question_text": "Explain BFS traversal, write queue-based pseudocode, and state the complexity.",
+  "max_marks": 6,
+  "items": [
+    {
+      "id": "r1",
+      "type": "definition",
+      "description": "States that BFS visits vertices level by level.",
+      "marks": 1,
+      "required": true
+    },
+    {
+      "id": "r2",
+      "type": "code",
+      "description": "Uses a queue to process vertices.",
+      "marks": 2,
+      "required": true
+    },
+    {
+      "id": "r3",
+      "type": "code",
+      "description": "Marks vertices as visited before enqueueing neighbours.",
+      "marks": 2,
+      "required": true
+    },
+    {
+      "id": "r4",
+      "type": "complexity",
+      "description": "States complexity O(V + E).",
+      "marks": 1,
+      "required": true
+    }
+  ]
+}

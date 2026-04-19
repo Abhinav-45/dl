@@ -1,0 +1,7 @@
+SCOREMAP packaged pilot benchmark:
+- Included locally in this submission under `04_data/sample_inputs/`
+- No external download is required to run the demo or reproduce the included results
+
+External datasets:
+- None required for the packaged prototype
+- If the project is extended later, replace this file with dataset URLs, license notes, and access instructions for the larger benchmark used

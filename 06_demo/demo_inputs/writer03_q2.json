@@ -1,0 +1,60 @@
+{
+  "sample_id": "writer03_q2",
+  "writer_id": "writer03",
+  "qid": "Q2",
+  "question_text": "Write the steps of merge sort and state its time complexity.",
+  "image_path": "images/writer03_q2.png",
+  "regions": [
+    {
+      "id": "n1",
+      "bbox": [
+        58,
+        145,
+        810,
+        235
+      ],
+      "text": "merge sort first divides, later combines arrays",
+      "type_hint": "algorithm_step",
+      "metadata": {
+        "line_index": 1
+      }
+    },
+    {
+      "id": "n2",
+      "bbox": [
+        58,
+        240,
+        810,
+        330
+      ],
+      "text": "time is O(n log n) and extra array O(n)",
+      "type_hint": "complexity",
+      "metadata": {
+        "line_index": 2
+      }
+    }
+  ],
+  "gold": {
+    "total_score": 6.0,
+    "item_hits": {
+      "r1": true,
+      "r2": true,
+      "r3": true,
+      "r4": true
+    },
+    "evidence": {
+      "r1": [
+        "n1"
+      ],
+      "r2": [
+        "n1"
+      ],
+      "r3": [
+        "n2"
+      ],
+      "r4": [
+        "n2"
+      ]
+    }
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "sample_id": "writer03_q5",
+  "qid": "Q5",
+  "total_score": 2.0,
+  "max_marks": 6,
+  "review_flag": true,
+  "item_results": [
+    {
+      "item_id": "r1",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.0,
+      "evidence_node_ids": [],
+      "rationale": "No textual match found."
+    },
+    {
+      "item_id": "r2",
+      "hit": true,
+      "score": 2,
+      "confidence": 0.5049,
+      "evidence_node_ids": [
+        "n2"
+      ],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r3",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.4537,
+      "evidence_node_ids": [],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r4",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.0966,
+      "evidence_node_ids": [],
+      "rationale": "Complexity candidate found but exact asymptotic form is weak."
+    }
+  ],
+  "typed_evidence_graph": {
+    "nodes": [
+      {
+        "id": "n1",
+        "type": "complexity",
+        "text": "BFS visits level by level.",
+        "bbox": [
+          58,
+          145,
+          810,
+          235
+        ],
+        "confidence": 0.15
+      },
+      {
+        "id": "n2",
+        "type": "code",
+        "text": "Use queue. visited array avoids repetition.",
+        "bbox": [
+          58,
+          240,
+          810,
+          330
+        ],
+        "confidence": 0.55
+      }
+    ],
+    "edges": [
+      {
+        "src": "n1",
+        "dst": "n2",
+        "relation": "reading_order"
+      },
+      {
+        "src": "n1",
+        "dst": "n2",
+        "relation": "same_column"
+      },
+      {
+        "src": "n1",
+        "dst": "n2",
+        "relation": "adjacent_down"
+      }
+    ],
+    "rubric_alignment": [
+      {
+        "item_id": "r1",
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.0
+      },
+      {
+        "item_id": "r2",
+        "hit": true,
+        "score": 2,
+        "evidence": [
+          "n2"
+        ],
+        "confidence": 0.5049
+      },
+      {
+        "item_id": "r3",
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.4537
+      },
+      {
+        "item_id": "r4",
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.0966
+      }
+    ]
+  }
+}

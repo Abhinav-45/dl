@@ -1,0 +1,30 @@
+{
+  "qid": "Q6",
+  "question_type": "diagram_trace",
+  "question_text": "Draw a Round Robin schedule with quantum 2 for processes P1, P2, P3 and comment on fairness.",
+  "max_marks": 5,
+  "items": [
+    {
+      "id": "r1",
+      "type": "diagram_gantt",
+      "description": "Shows a Round Robin Gantt chart with repeated process slices.",
+      "marks": 3,
+      "required": true
+    },
+    {
+      "id": "r2",
+      "type": "concept",
+      "description": "Mentions equal time quantum or cyclic service.",
+      "marks": 1,
+      "required": true
+    },
+    {
+      "id": "r3",
+      "type": "final_answer",
+      "description": "Comments that fairness is improved because no process waits forever.",
+      "marks": 1,
+      "required": false,
+      "prerequisite": "r2"
+    }
+  ]
+}

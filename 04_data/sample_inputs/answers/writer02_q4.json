@@ -1,0 +1,48 @@
+{
+  "sample_id": "writer02_q4",
+  "writer_id": "writer02",
+  "qid": "Q4",
+  "question_text": "List Coffman conditions for deadlock and briefly explain any one.",
+  "image_path": "images/writer02_q4.png",
+  "regions": [
+    {
+      "id": "n1",
+      "bbox": [
+        58,
+        145,
+        810,
+        235
+      ],
+      "text": "Conditions are mutual exclusion, hold and wait, no preemption, circular wait.",
+      "type_hint": "definition",
+      "metadata": {
+        "line_index": 1
+      }
+    }
+  ],
+  "gold": {
+    "total_score": 4.0,
+    "item_hits": {
+      "r1": true,
+      "r2": true,
+      "r3": true,
+      "r4": true,
+      "r5": false
+    },
+    "evidence": {
+      "r1": [
+        "n1"
+      ],
+      "r2": [
+        "n1"
+      ],
+      "r3": [
+        "n1"
+      ],
+      "r4": [
+        "n1"
+      ],
+      "r5": []
+    }
+  }
+}

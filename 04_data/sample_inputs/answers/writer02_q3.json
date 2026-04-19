@@ -1,0 +1,72 @@
+{
+  "sample_id": "writer02_q3",
+  "writer_id": "writer02",
+  "qid": "Q3",
+  "question_text": "Write pseudocode for binary search and give its time complexity.",
+  "image_path": "images/writer02_q3.png",
+  "regions": [
+    {
+      "id": "n1",
+      "bbox": [
+        58,
+        145,
+        810,
+        235
+      ],
+      "text": "start with low and high pointers",
+      "type_hint": "code",
+      "metadata": {
+        "line_index": 1
+      }
+    },
+    {
+      "id": "n2",
+      "bbox": [
+        58,
+        240,
+        810,
+        330
+      ],
+      "text": "mid = (low+high)/2 and compare target with middle element",
+      "type_hint": "code",
+      "metadata": {
+        "line_index": 2
+      }
+    },
+    {
+      "id": "n3",
+      "bbox": [
+        58,
+        335,
+        810,
+        425
+      ],
+      "text": "update bounds and continue",
+      "type_hint": "code",
+      "metadata": {
+        "line_index": 3
+      }
+    }
+  ],
+  "gold": {
+    "total_score": 5.0,
+    "item_hits": {
+      "r1": true,
+      "r2": true,
+      "r3": true,
+      "r4": false
+    },
+    "evidence": {
+      "r1": [
+        "n1"
+      ],
+      "r2": [
+        "n2"
+      ],
+      "r3": [
+        "n3"
+      ],
+      "r4": []
+    }
+  }
+}

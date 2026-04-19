@@ -1,0 +1,20 @@
+project:
+  name: SCOREMAP
+  task: handwritten_cs_answer_grading
+
+variants:
+  generic:
+    use_type_routing: false
+    use_order_constraints: false
+    use_prerequisites: false
+    use_graph_context: false
+  no_graph:
+    use_type_routing: true
+    use_order_constraints: false
+    use_prerequisites: false
+    use_graph_context: false
+  scoremap:
+    use_type_routing: true
+    use_order_constraints: true
+    use_prerequisites: true
+    use_graph_context: true

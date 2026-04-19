@@ -1,0 +1,4 @@
+ablation,removed_component,mae,rubric_item_f1,evidence_f1
+generic_scorer,type-specific routing + structured executors,2.0,0.75,0.5
+no_graph_constraints,reading-order / prerequisite constraints,1.6667,0.7273,0.5
+full_scoremap,none,1.3333,0.7647,0.5417

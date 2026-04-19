@@ -1,0 +1,88 @@
+{
+  "sample_id": "writer01_q3",
+  "writer_id": "writer01",
+  "qid": "Q3",
+  "question_text": "Write pseudocode for binary search and give its time complexity.",
+  "image_path": "images/writer01_q3.png",
+  "regions": [
+    {
+      "id": "n1",
+      "bbox": [
+        58,
+        145,
+        810,
+        235
+      ],
+      "text": "low = 0, high = n - 1",
+      "type_hint": "code",
+      "metadata": {
+        "line_index": 1
+      }
+    },
+    {
+      "id": "n2",
+      "bbox": [
+        58,
+        240,
+        810,
+        330
+      ],
+      "text": "while low <= high: mid = (low + high) // 2",
+      "type_hint": "code",
+      "metadata": {
+        "line_index": 2
+      }
+    },
+    {
+      "id": "n3",
+      "bbox": [
+        58,
+        335,
+        810,
+        425
+      ],
+      "text": "if key < a[mid] high = mid - 1 else low = mid + 1",
+      "type_hint": "code",
+      "metadata": {
+        "line_index": 3
+      }
+    },
+    {
+      "id": "n4",
+      "bbox": [
+        58,
+        430,
+        810,
+        520
+      ],
+      "text": "Time complexity is O(log n).",
+      "type_hint": "complexity",
+      "metadata": {
+        "line_index": 4
+      }
+    }
+  ],
+  "gold": {
+    "total_score": 6.0,
+    "item_hits": {
+      "r1": true,
+      "r2": true,
+      "r3": true,
+      "r4": true
+    },
+    "evidence": {
+      "r1": [
+        "n1"
+      ],
+      "r2": [
+        "n2"
+      ],
+      "r3": [
+        "n3"
+      ],
+      "r4": [
+        "n4"
+      ]
+    }
+  }
+}

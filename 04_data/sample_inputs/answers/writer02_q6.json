@@ -1,0 +1,60 @@
+{
+  "sample_id": "writer02_q6",
+  "writer_id": "writer02",
+  "qid": "Q6",
+  "question_text": "Draw a Round Robin schedule with quantum 2 for processes P1, P2, P3 and comment on fairness.",
+  "image_path": "images/writer02_q6.png",
+  "regions": [
+    {
+      "id": "n1",
+      "bbox": [
+        58,
+        145,
+        840,
+        280
+      ],
+      "text": "Gantt: |P1 0-2|P2 2-4|P3 4-6|P1 6-8|",
+      "type_hint": "diagram_gantt",
+      "metadata": {
+        "line_index": 1,
+        "diagram_segments": [
+          "P1 0-2",
+          "P2 2-4",
+          "P3 4-6",
+          "P1 6-8"
+        ]
+      }
+    },
+    {
+      "id": "n2",
+      "bbox": [
+        58,
+        290,
+        810,
+        380
+      ],
+      "text": "Each process gets equal quantum.",
+      "type_hint": "concept",
+      "metadata": {
+        "line_index": 2
+      }
+    }
+  ],
+  "gold": {
+    "total_score": 4.0,
+    "item_hits": {
+      "r1": true,
+      "r2": true,
+      "r3": false
+    },
+    "evidence": {
+      "r1": [
+        "n1"
+      ],
+      "r2": [
+        "n2"
+      ],
+      "r3": []
+    }
+  }
+}

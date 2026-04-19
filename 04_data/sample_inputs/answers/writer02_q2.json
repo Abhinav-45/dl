@@ -1,0 +1,72 @@
+{
+  "sample_id": "writer02_q2",
+  "writer_id": "writer02",
+  "qid": "Q2",
+  "question_text": "Write the steps of merge sort and state its time complexity.",
+  "image_path": "images/writer02_q2.png",
+  "regions": [
+    {
+      "id": "n1",
+      "bbox": [
+        58,
+        145,
+        810,
+        235
+      ],
+      "text": "Split list into halves recursively.",
+      "type_hint": "algorithm_step",
+      "metadata": {
+        "line_index": 1
+      }
+    },
+    {
+      "id": "n2",
+      "bbox": [
+        58,
+        240,
+        810,
+        330
+      ],
+      "text": "Merge sorted sublists.",
+      "type_hint": "algorithm_step",
+      "metadata": {
+        "line_index": 2
+      }
+    },
+    {
+      "id": "n3",
+      "bbox": [
+        58,
+        335,
+        810,
+        425
+      ],
+      "text": "O(n log n)",
+      "type_hint": "complexity",
+      "metadata": {
+        "line_index": 3
+      }
+    }
+  ],
+  "gold": {
+    "total_score": 5.0,
+    "item_hits": {
+      "r1": true,
+      "r2": true,
+      "r3": true,
+      "r4": false
+    },
+    "evidence": {
+      "r1": [
+        "n1"
+      ],
+      "r2": [
+        "n2"
+      ],
+      "r3": [
+        "n3"
+      ],
+      "r4": []
+    }
+  }
+}

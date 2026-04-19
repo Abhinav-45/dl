@@ -1,0 +1,36 @@
+{
+  "qid": "Q3",
+  "question_type": "code_plus_complexity",
+  "question_text": "Write pseudocode for binary search and give its time complexity.",
+  "max_marks": 6,
+  "items": [
+    {
+      "id": "r1",
+      "type": "code",
+      "description": "Initializes low and high indices.",
+      "marks": 2,
+      "required": true
+    },
+    {
+      "id": "r2",
+      "type": "code",
+      "description": "Computes mid and compares key with a[mid].",
+      "marks": 2,
+      "required": true
+    },
+    {
+      "id": "r3",
+      "type": "code",
+      "description": "Updates low or high depending on comparison.",
+      "marks": 1,
+      "required": true
+    },
+    {
+      "id": "r4",
+      "type": "complexity",
+      "description": "States time complexity O(log n).",
+      "marks": 1,
+      "required": true
+    }
+  ]
+}

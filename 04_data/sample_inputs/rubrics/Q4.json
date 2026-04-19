@@ -1,0 +1,43 @@
+{
+  "qid": "Q4",
+  "question_type": "definition_list",
+  "question_text": "List Coffman conditions for deadlock and briefly explain any one.",
+  "max_marks": 5,
+  "items": [
+    {
+      "id": "r1",
+      "type": "definition",
+      "description": "Mentions mutual exclusion.",
+      "marks": 1,
+      "required": true
+    },
+    {
+      "id": "r2",
+      "type": "definition",
+      "description": "Mentions hold and wait.",
+      "marks": 1,
+      "required": true
+    },
+    {
+      "id": "r3",
+      "type": "definition",
+      "description": "Mentions no preemption.",
+      "marks": 1,
+      "required": true
+    },
+    {
+      "id": "r4",
+      "type": "definition",
+      "description": "Mentions circular wait.",
+      "marks": 1,
+      "required": true
+    },
+    {
+      "id": "r5",
+      "type": "concept",
+      "description": "Explains at least one condition in plain language.",
+      "marks": 1,
+      "required": false
+    }
+  ]
+}
