@@ -53,7 +53,7 @@ The scoring core is still the same typed-evidence/rubric-alignment model. The ne
 
 ## Exact Commands
 
-Generate the packaged benchmark, demo assets, and sample answer-key PDF:
+Generate the packaged benchmark and legacy synthetic assets:
 
 ```powershell
 python 03_code\scripts\generate_assets.py
@@ -71,41 +71,63 @@ Run evaluation on the writer-wise test split:
 python 03_code\scripts\eval.py
 ```
 
-Run one inference example from an existing answer JSON:
+Run one inference example from the legacy packaged answer JSON:
 
 ```powershell
 python 03_code\scripts\infer.py --answer 04_data\sample_inputs\answers\writer03_q1.json --rubric 04_data\sample_inputs\rubrics\Q1.json --variant scoremap
 ```
 
-Parse the packaged answer-key PDF into rubric JSON files:
+Parse the real ORDeque demo answer key into rubric JSON:
 
 ```powershell
-python 03_code\scripts\parse_answer_key.py --input 04_data\sample_inputs\answer_keys\scoremap_answer_key.pdf --output-dir 04_data\parsed_rubrics
+python 03_code\scripts\parse_answer_key.py --input 06_demo\ordeque_demo\answer_key_structured.pdf --output-dir 06_demo\ordeque_demo\parsed_rubrics
 ```
 
-Ingest a student document into SCOREMAP answer JSON with TrOCR:
+Run the primary stable end-to-end demo on the real ORDeque materials:
 
 ```powershell
-python 03_code\scripts\ingest_student.py --input 04_data\sample_inputs\images\writer03_q1.png --rubric 04_data\sample_inputs\rubrics\Q1.json --output-dir 06_demo\ingested_writer03_q1 --backend trocr
+python 03_code\scripts\demo_e2e.py
 ```
 
-Run the full document-to-score pipeline:
+This uses:
+
+- `06_demo\ordeque_demo\question_reference.png`
+- `06_demo\ordeque_demo\answer_key_reference.png`
+- `06_demo\ordeque_demo\answer_key_structured.pdf`
+- `06_demo\ordeque_demo\student_answer.jpeg`
+- `06_demo\ordeque_demo\student_answer_sidecar.json`
+
+Run the same ORDeque example through the generic CLI instead of the demo wrapper:
 
 ```powershell
-python 03_code\scripts\grade_document.py --document 04_data\sample_inputs\images\writer03_q1.png --answer-key 04_data\sample_inputs\answer_keys\scoremap_answer_key.pdf --qid Q1 --output-dir 06_demo\graded_writer03_q1 --backend trocr
+python 03_code\scripts\grade_document.py --document 06_demo\ordeque_demo\student_answer.jpeg --answer-key 06_demo\ordeque_demo\answer_key_structured.pdf --qid ORQ4 --output-dir 06_demo\ordeque_demo\manual_run --backend regions_json --sidecar 06_demo\ordeque_demo\student_answer_sidecar.json
 ```
 
-Run the packaged regression-safe end-to-end demo without live OCR by reusing the provided region sidecar:
+If you want to test live handwriting transcription instead of the stable sidecar path:
 
 ```powershell
-python 03_code\scripts\demo_e2e.py --sample writer03_q1 --backend regions_json
+python 03_code\scripts\demo_e2e.py --backend trocr
 ```
 
-Run the original scorer-only demo batch:
+The old synthetic scorer-only demo batch is still available:
 
 ```powershell
 python 03_code\scripts\demo.py
 ```
+
+## Primary Demo Assets
+
+The main showcase example in this repo is now the ORDeque question under `06_demo/ordeque_demo/`.
+
+Files:
+
+- original question screenshot: `question_reference.png`
+- original answer-key screenshot: `answer_key_reference.png`
+- parser-friendly transcription of the answer key: `answer_key_structured.txt` and `answer_key_structured.pdf`
+- handwritten student answer: `student_answer.jpeg`
+- deterministic region sidecar: `student_answer_sidecar.json`
+
+The structured PDF is intentionally included because the original answer-key screenshot is image-only, while the parser expects a text-layer PDF or text file.
 
 ## Answer-Key Format
 
@@ -137,6 +159,8 @@ Two ingestion backends are supported:
 
 - `trocr`: real handwriting recognition using TrOCR plus simple line segmentation
 - `regions_json`: deterministic fallback for demos/regression tests that reuses an existing answer/region JSON as the transcription sidecar
+
+For the ORDeque demo, `regions_json` is the recommended path because it is stable and auditable on the real attached handwritten page. The live `trocr` path remains available, but it is currently experimental on that sample.
 
 `trocr` works best when:
 - the input contains one question answer per page/image

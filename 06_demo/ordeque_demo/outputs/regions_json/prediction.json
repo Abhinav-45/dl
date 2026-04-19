@@ -1,0 +1,262 @@
+{
+  "sample_id": "ordeque_demo",
+  "qid": "ORQ4",
+  "total_score": 13.0,
+  "max_marks": 14.0,
+  "review_flag": true,
+  "item_results": [
+    {
+      "item_id": "r1",
+      "hit": true,
+      "score": 1.0,
+      "confidence": 0.6421,
+      "evidence_node_ids": [
+        "n1"
+      ],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r2",
+      "hit": true,
+      "score": 3.0,
+      "confidence": 0.7232,
+      "evidence_node_ids": [
+        "n5"
+      ],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r3",
+      "hit": true,
+      "score": 3.0,
+      "confidence": 0.7572,
+      "evidence_node_ids": [
+        "n3"
+      ],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r4",
+      "hit": true,
+      "score": 1.0,
+      "confidence": 0.6095,
+      "evidence_node_ids": [
+        "n4"
+      ],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r5",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.5333,
+      "evidence_node_ids": [],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r6",
+      "hit": true,
+      "score": 1.0,
+      "confidence": 0.7304,
+      "evidence_node_ids": [
+        "n5"
+      ],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r7",
+      "hit": true,
+      "score": 2.0,
+      "confidence": 0.5629,
+      "evidence_node_ids": [
+        "n6"
+      ],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r8",
+      "hit": true,
+      "score": 2.0,
+      "confidence": 0.5812,
+      "evidence_node_ids": [
+        "n6"
+      ],
+      "rationale": "Matched lexical and semantic overlap."
+    }
+  ],
+  "typed_evidence_graph": {
+    "nodes": [
+      {
+        "id": "n1",
+        "type": "code",
+        "text": "Enqueue_ORDeque(Q, x, a) { if (isFull(Q)) Print(\"Queue Full\"), Return. }",
+        "bbox": [
+          60,
+          70,
+          620,
+          260
+        ],
+        "confidence": 0.73
+      },
+      {
+        "id": "n2",
+        "type": "code",
+        "text": "if (a = 0) { if (rear = Q.size) rear = 1 else rear = rear + 1 Q[rear] = x }",
+        "bbox": [
+          85,
+          235,
+          620,
+          645
+        ],
+        "confidence": 0.73
+      },
+      {
+        "id": "n3",
+        "type": "code",
+        "text": "if (a = 1) { Q[front] = x if (front = 1) front = Q.size else front = front - 1 }",
+        "bbox": [
+          85,
+          620,
+          620,
+          1045
+        ],
+        "confidence": 0.73
+      },
+      {
+        "id": "n4",
+        "type": "code",
+        "text": "Dequeue_ORDeque(Q) { if (front = rear) { Print(\"Q is empty\") } }",
+        "bbox": [
+          660,
+          45,
+          1225,
+          355
+        ],
+        "confidence": 0.73
+      },
+      {
+        "id": "n5",
+        "type": "code",
+        "text": "x = Q[rear] if (rear = 1) rear = Q.size else rear = rear - 1 return(x)",
+        "bbox": [
+          665,
+          320,
+          1225,
+          770
+        ],
+        "confidence": 0.73
+      },
+      {
+        "id": "n6",
+        "type": "code",
+        "text": "isFull(Q) { if (front = rear + 1) or ((front = 1) and (rear = Q.size)) Return(True) Else Return(False) }",
+        "bbox": [
+          650,
+          865,
+          1235,
+          1185
+        ],
+        "confidence": 0.73
+      }
+    ],
+    "edges": [
+      {
+        "src": "n4",
+        "dst": "n1",
+        "relation": "reading_order"
+      },
+      {
+        "src": "n1",
+        "dst": "n2",
+        "relation": "reading_order"
+      },
+      {
+        "src": "n2",
+        "dst": "n5",
+        "relation": "reading_order"
+      },
+      {
+        "src": "n5",
+        "dst": "n3",
+        "relation": "reading_order"
+      },
+      {
+        "src": "n3",
+        "dst": "n6",
+        "relation": "reading_order"
+      }
+    ],
+    "rubric_alignment": [
+      {
+        "item_id": "r1",
+        "hit": true,
+        "score": 1.0,
+        "evidence": [
+          "n1"
+        ],
+        "confidence": 0.6421
+      },
+      {
+        "item_id": "r2",
+        "hit": true,
+        "score": 3.0,
+        "evidence": [
+          "n5"
+        ],
+        "confidence": 0.7232
+      },
+      {
+        "item_id": "r3",
+        "hit": true,
+        "score": 3.0,
+        "evidence": [
+          "n3"
+        ],
+        "confidence": 0.7572
+      },
+      {
+        "item_id": "r4",
+        "hit": true,
+        "score": 1.0,
+        "evidence": [
+          "n4"
+        ],
+        "confidence": 0.6095
+      },
+      {
+        "item_id": "r5",
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.5333
+      },
+      {
+        "item_id": "r6",
+        "hit": true,
+        "score": 1.0,
+        "evidence": [
+          "n5"
+        ],
+        "confidence": 0.7304
+      },
+      {
+        "item_id": "r7",
+        "hit": true,
+        "score": 2.0,
+        "evidence": [
+          "n6"
+        ],
+        "confidence": 0.5629
+      },
+      {
+        "item_id": "r8",
+        "hit": true,
+        "score": 2.0,
+        "evidence": [
+          "n6"
+        ],
+        "confidence": 0.5812
+      }
+    ]
+  }
+}

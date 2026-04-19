@@ -1,0 +1,68 @@
+Question ID: ORQ4
+Question Type: code_multi_function
+Question Text: An output restricted Deque (ORDeque) is implemented using a circular array. Complete Enqueue_ORDeque(Q, x, a), Dequeue_ORDeque(Q), and IsFull(Q) for insertion at rear/front, deletion from rear, and full-queue detection.
+Max Marks: 14
+Item ID: r1
+Item Type: code
+Description: Checks if the queue is full using isFull(Q), prints Queue Full, and returns before enqueueing.
+Marks: 1
+Required: true
+Order:
+Prerequisite:
+Alternatives:
+Item ID: r2
+Item Type: code
+Description: For a = 0, inserts from rear by circularly updating rear: if rear = Q.size then rear = 1 else rear = rear + 1, then stores x in Q[rear].
+Marks: 3
+Required: true
+Order:
+Prerequisite:
+Alternatives:
+Item ID: r3
+Item Type: code
+Description: For a = 1, inserts from front by setting Q[front] = x and circularly updating front: if front = 1 then front = Q.size else front = front - 1.
+Marks: 3
+Required: true
+Order:
+Prerequisite:
+Alternatives:
+Item ID: r4
+Item Type: code
+Description: In Dequeue_ORDeque, checks if front = rear and reports that the queue is empty.
+Marks: 1
+Required: true
+Order:
+Prerequisite:
+Alternatives:
+Item ID: r5
+Item Type: code
+Description: Extracts the element before updating the pointer by assigning x = Q[rear].
+Marks: 1
+Required: true
+Order:
+Prerequisite:
+Alternatives:
+Item ID: r6
+Item Type: code
+Description: Updates rear circularly after dequeue: if rear = 1 then rear = Q.size else rear = rear - 1, then returns x.
+Marks: 1
+Required: true
+Order:
+Prerequisite:
+Alternatives:
+Item ID: r7
+Item Type: code
+Description: In IsFull(Q), checks the condition front = rear + 1 and returns true when it holds.
+Marks: 2
+Required: true
+Order:
+Prerequisite:
+Alternatives:
+Item ID: r8
+Item Type: code
+Description: In IsFull(Q), checks the condition front = 1 and rear = Q.size, otherwise returns false.
+Marks: 2
+Required: true
+Order:
+Prerequisite:
+Alternatives:

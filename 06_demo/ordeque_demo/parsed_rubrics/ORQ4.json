@@ -1,0 +1,64 @@
+{
+  "qid": "ORQ4",
+  "question_type": "code_multi_function",
+  "question_text": "An output restricted Deque (ORDeque) is implemented using a circular array. Complete Enqueue_ORDeque(Q, x, a), Dequeue_ORDeque(Q), and IsFull(Q) for insertion at rear/front, deletion from rear, and full-queue detection.",
+  "max_marks": 14.0,
+  "items": [
+    {
+      "id": "r1",
+      "type": "code",
+      "description": "Checks if the queue is full using isFull(Q), prints Queue Full, and returns before enqueueing.",
+      "marks": 1.0,
+      "required": true
+    },
+    {
+      "id": "r2",
+      "type": "code",
+      "description": "For a = 0, inserts from rear by circularly updating rear: if rear = Q.size then rear = 1 else rear = rear + 1, then stores x in Q[rear].",
+      "marks": 3.0,
+      "required": true
+    },
+    {
+      "id": "r3",
+      "type": "code",
+      "description": "For a = 1, inserts from front by setting Q[front] = x and circularly updating front: if front = 1 then front = Q.size else front = front - 1.",
+      "marks": 3.0,
+      "required": true
+    },
+    {
+      "id": "r4",
+      "type": "code",
+      "description": "In Dequeue_ORDeque, checks if front = rear and reports that the queue is empty.",
+      "marks": 1.0,
+      "required": true
+    },
+    {
+      "id": "r5",
+      "type": "code",
+      "description": "Extracts the element before updating the pointer by assigning x = Q[rear].",
+      "marks": 1.0,
+      "required": true
+    },
+    {
+      "id": "r6",
+      "type": "code",
+      "description": "Updates rear circularly after dequeue: if rear = 1 then rear = Q.size else rear = rear - 1, then returns x.",
+      "marks": 1.0,
+      "required": true
+    },
+    {
+      "id": "r7",
+      "type": "code",
+      "description": "In IsFull(Q), checks the condition front = rear + 1 and returns true when it holds.",
+      "marks": 2.0,
+      "required": true
+    },
+    {
+      "id": "r8",
+      "type": "code",
+      "description": "In IsFull(Q), checks the condition front = 1 and rear = Q.size, otherwise returns false.",
+      "marks": 2.0,
+      "required": true
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "sample_id": "ordeque_demo",
+  "writer_id": "student_demo",
+  "qid": "ORQ4",
+  "question_text": "An output restricted Deque (ORDeque) is implemented using a circular array. Complete Enqueue_ORDeque(Q, x, a), Dequeue_ORDeque(Q), and IsFull(Q) for insertion at rear/front, deletion from rear, and full-queue detection.",
+  "image_path": "page.png",
+  "regions": [
+    {
+      "id": "n1",
+      "bbox": [
+        0,
+        0,
+        1279,
+        912
+      ],
+      "text": "0 0",
+      "metadata": {
+        "line_index": 1,
+        "ocr_confidence": 0.3822,
+        "transcription_backend": "trocr"
+      }
+    },
+    {
+      "id": "n2",
+      "bbox": [
+        49,
+        923,
+        1279,
+        964
+      ],
+      "text": "that's a size of",
+      "metadata": {
+        "line_index": 2,
+        "ocr_confidence": 0.5144,
+        "transcription_backend": "trocr"
+      }
+    },
+    {
+      "id": "n3",
+      "bbox": [
+        67,
+        972,
+        1279,
+        1017
+      ],
+      "text": "else . Withdrawal to",
+      "metadata": {
+        "line_index": 3,
+        "ocr_confidence": 0.3544,
+        "transcription_backend": "trocr"
+      }
+    },
+    {
+      "id": "n4",
+      "bbox": [
+        0,
+        1026,
+        1279,
+        1131
+      ],
+      "text": "# 3 transferred to Montana Pennsylvania .",
+      "metadata": {
+        "line_index": 4,
+        "ocr_confidence": 0.3899,
+        "transcription_backend": "trocr"
+      }
+    },
+    {
+      "id": "n5",
+      "bbox": [
+        0,
+        1139,
+        1279,
+        1259
+      ],
+      "text": "\" \"",
+      "metadata": {
+        "line_index": 5,
+        "ocr_confidence": 0.3106,
+        "transcription_backend": "trocr"
+      }
+    }
+  ],
+  "source_document": "C:\\Users\\ASUS\\group27_ScoreMap\\dl\\06_demo\\ordeque_demo\\student_answer.jpeg",
+  "page_number": 0,
+  "transcription_backend": "trocr"
+}

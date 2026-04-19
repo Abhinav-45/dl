@@ -1,0 +1,102 @@
+{
+  "sample_id": "ordeque_demo",
+  "writer_id": "student_demo",
+  "qid": "ORQ4",
+  "question_text": "An output restricted Deque (ORDeque) is implemented using a circular array. Complete Enqueue_ORDeque(Q, x, a), Dequeue_ORDeque(Q), and IsFull(Q) for insertion at rear/front, deletion from rear, and full-queue detection.",
+  "image_path": "page.png",
+  "regions": [
+    {
+      "id": "n1",
+      "bbox": [
+        60,
+        70,
+        620,
+        260
+      ],
+      "text": "Enqueue_ORDeque(Q, x, a) { if (isFull(Q)) Print(\"Queue Full\"), Return. }",
+      "metadata": {
+        "line_index": 1,
+        "transcription_backend": "regions_json"
+      },
+      "type_hint": "code"
+    },
+    {
+      "id": "n2",
+      "bbox": [
+        85,
+        235,
+        620,
+        645
+      ],
+      "text": "if (a = 0) { if (rear = Q.size) rear = 1 else rear = rear + 1 Q[rear] = x }",
+      "metadata": {
+        "line_index": 2,
+        "transcription_backend": "regions_json"
+      },
+      "type_hint": "code"
+    },
+    {
+      "id": "n3",
+      "bbox": [
+        85,
+        620,
+        620,
+        1045
+      ],
+      "text": "if (a = 1) { Q[front] = x if (front = 1) front = Q.size else front = front - 1 }",
+      "metadata": {
+        "line_index": 3,
+        "transcription_backend": "regions_json"
+      },
+      "type_hint": "code"
+    },
+    {
+      "id": "n4",
+      "bbox": [
+        660,
+        45,
+        1225,
+        355
+      ],
+      "text": "Dequeue_ORDeque(Q) { if (front = rear) { Print(\"Q is empty\") } }",
+      "metadata": {
+        "line_index": 4,
+        "transcription_backend": "regions_json"
+      },
+      "type_hint": "code"
+    },
+    {
+      "id": "n5",
+      "bbox": [
+        665,
+        320,
+        1225,
+        770
+      ],
+      "text": "x = Q[rear] if (rear = 1) rear = Q.size else rear = rear - 1 return(x)",
+      "metadata": {
+        "line_index": 5,
+        "transcription_backend": "regions_json"
+      },
+      "type_hint": "code"
+    },
+    {
+      "id": "n6",
+      "bbox": [
+        650,
+        865,
+        1235,
+        1185
+      ],
+      "text": "isFull(Q) { if (front = rear + 1) or ((front = 1) and (rear = Q.size)) Return(True) Else Return(False) }",
+      "metadata": {
+        "line_index": 6,
+        "transcription_backend": "regions_json"
+      },
+      "type_hint": "code"
+    }
+  ],
+  "source_document": "C:\\Users\\ASUS\\group27_ScoreMap\\dl\\06_demo\\ordeque_demo\\student_answer.jpeg",
+  "page_number": 0,
+  "transcription_backend": "regions_json"
+}

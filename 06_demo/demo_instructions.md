@@ -1,62 +1,65 @@
 # Demo Instructions
 
-## Goal
+## Primary Demo Example
 
-Show both SCOREMAP layers:
+The repo now uses the real ORDeque example as the main demo:
 
-1. the original scorer on packaged answer JSON
-2. the new ingestion-to-grading pipeline that starts from an answer-key PDF and a student document
+- question paper reference: `06_demo/ordeque_demo/question_reference.png`
+- answer-key screenshot reference: `06_demo/ordeque_demo/answer_key_reference.png`
+- structured answer key for automated parsing: `06_demo/ordeque_demo/answer_key_structured.pdf`
+- handwritten student answer sheet: `06_demo/ordeque_demo/student_answer.jpeg`
+- deterministic transcription sidecar used for the live demo: `06_demo/ordeque_demo/student_answer_sidecar.json`
 
-## Fast Scorer Demo
+The structured PDF is a faithful transcription of the attached answer-key screenshot. It exists because the parser needs a text-layer PDF or text file, while the original screenshot is image-only.
 
-Run:
-
-```powershell
-python 03_code\scripts\demo.py
-```
-
-This uses:
-
-- demo inputs: `06_demo/demo_inputs/`
-- packaged rubric JSON: `04_data/sample_inputs/rubrics/`
-- outputs: `06_demo/demo_outputs/`
-
-## Full Ingestion Demo
+## Stable Demo Command
 
 Run:
 
 ```powershell
-python 03_code\scripts\demo_e2e.py --sample writer03_q1 --backend regions_json
+python 03_code\scripts\demo_e2e.py
 ```
 
-This uses:
+This defaults to:
 
-- answer-key PDF: `04_data/sample_inputs/answer_keys/scoremap_answer_key.pdf`
-- student document image: `04_data/sample_inputs/images/writer03_q1.png`
-- region sidecar for deterministic transcription: `04_data/sample_inputs/answers/writer03_q1.json`
-- outputs: `06_demo/e2e_outputs/writer03_q1/`
+- sample: `ordeque_demo`
+- backend: `regions_json`
 
-If TrOCR is installed and the checkpoint is available, you can switch to live handwriting transcription:
+That path is the recommended viva/demo path because it uses the real attached question/answer materials while keeping the transcription deterministic and reproducible.
 
-```powershell
-python 03_code\scripts\demo_e2e.py --sample writer03_q1 --backend trocr
-```
+## What the Stable Demo Produces
+
+Outputs are written to:
+
+- `06_demo/ordeque_demo/outputs/regions_json/overlay.png`
+- `06_demo/ordeque_demo/outputs/regions_json/prediction.json`
+- `06_demo/ordeque_demo/outputs/regions_json/ingested/answer.json`
+- `06_demo/ordeque_demo/outputs/regions_json/parsed_rubrics/ORQ4.json`
+
+On the current packaged sidecar, the score is `13/14` with a review flag because one rubric item remains borderline.
 
 ## Suggested Viva Flow
 
-1. Open `04_data/sample_inputs/answer_keys/scoremap_answer_key.pdf`.
-2. Explain that the parser converts this into rubric JSON automatically.
-3. Open `04_data/sample_inputs/images/writer03_q1.png`.
-4. Run the end-to-end demo command.
-5. Show `06_demo/e2e_outputs/writer03_q1/parsed_rubrics/Q1.json`.
-6. Show `06_demo/e2e_outputs/writer03_q1/ingested/answer.json`.
-7. Open `06_demo/e2e_outputs/writer03_q1/overlay.png`.
-8. Open `06_demo/e2e_outputs/writer03_q1/prediction.json`.
+1. Open `06_demo/ordeque_demo/question_reference.png` to show the original problem statement.
+2. Open `06_demo/ordeque_demo/answer_key_reference.png` to show the teacher's answer key and marking scheme.
+3. Open `06_demo/ordeque_demo/student_answer.jpeg` to show the handwritten student submission.
+4. Run `python 03_code\scripts\demo_e2e.py`.
+5. Open `06_demo/ordeque_demo/answer_key_structured.pdf` and explain that this is the parser-friendly transcription of the answer-key screenshot.
+6. Open `06_demo/ordeque_demo/outputs/regions_json/parsed_rubrics/ORQ4.json` to show the rubric items and marks.
+7. Open `06_demo/ordeque_demo/outputs/regions_json/ingested/answer.json` to show the regionized student answer.
+8. Open `06_demo/ordeque_demo/outputs/regions_json/overlay.png` to show localized evidence.
+9. Open `06_demo/ordeque_demo/outputs/regions_json/prediction.json` to show item-wise mark decisions and rationales.
 
-## Meaningful Behaviors to Highlight
+## Important Note About TrOCR
 
-- the answer key is no longer hand-entered as rubric JSON
-- the student document is converted into region JSON before scoring
-- the scorer remains rubric-aligned and evidence-grounded
-- overlays and `prediction.json` make the score auditable
-- `trocr` is the live transcription backend, while `regions_json` is the regression-safe fallback
+You can still try:
+
+```powershell
+python 03_code\scripts\demo_e2e.py --backend trocr
+```
+
+But for this real handwritten ORDeque page, TrOCR is currently not reliable enough to be the primary demo path. The `regions_json` backend is the recommended demo because it keeps the focus on answer-key parsing, structured ingestion, rubric execution, and auditable scoring.
+
+## Legacy Material
+
+The older synthetic demo samples under `06_demo/demo_inputs/` and `04_data/sample_inputs/` are still in the repo for regression testing and baseline comparisons, but they are no longer the primary showcase example.
