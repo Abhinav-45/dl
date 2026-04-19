@@ -2,6 +2,9 @@ from __future__ import annotations
 
 import json
 import math
+import re
+from dataclasses import dataclass
+from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
@@ -9,12 +12,76 @@ import fitz
 import numpy as np
 from PIL import Image, ImageOps
 
+from .answer_key_ingest import _get_easyocr_reader
 from .pipeline import load_answer_sample
 from .schema import Region, Rubric
-from .text_utils import overlap_score
+from .text_utils import normalize_text, overlap_score
 
 
 IMAGE_SUFFIXES = {".png", ".jpg", ".jpeg", ".bmp", ".tif", ".tiff", ".webp"}
+CODE_HINT_KEYWORDS = {
+    "enqueue",
+    "dequeue",
+    "ordeque",
+    "isfull",
+    "front",
+    "rear",
+    "queue",
+    "return",
+    "print",
+    "true",
+    "false",
+    "empty",
+    "full",
+    "size",
+    "insert",
+    "delete",
+}
+COMMON_LEXICON = {
+    "enqueue",
+    "dequeue",
+    "ordeque",
+    "isfull",
+    "front",
+    "rear",
+    "queue",
+    "print",
+    "return",
+    "true",
+    "false",
+    "size",
+    "insert",
+    "delete",
+    "empty",
+    "full",
+    "student",
+    "array",
+    "from",
+    "rear",
+    "front",
+    "if",
+    "else",
+    "and",
+    "or",
+    "q",
+    "x",
+}
+TOKEN_BLACKLIST = {"if", "else", "and", "or", "q", "x", "a"}
+
+
+@dataclass
+class DetectedLine:
+    bbox: Tuple[int, int, int, int]
+    text: str
+    confidence: float
+    column_index: int
+    line_index: int
+
+
+@dataclass
+class ReferenceHints:
+    snippets: List[str]
+    lexicon: List[str]
 
 
 class TrOCRTranscriber:
@@ -58,10 +125,11 @@ def ingest_student_document(
     sample_id: Optional[str] = None,
     writer_id: str = "student",
     page_number: int = 0,
-    backend: str = "trocr",
+    backend: str = "hybrid",
     model_name: str = "microsoft/trocr-base-handwritten",
     sidecar_path: Optional[Path] = None,
     pdf_dpi: int = 180,
+    reference_text: Optional[str] = None,
 ) -> Path:
     output_dir.mkdir(parents=True, exist_ok=True)
     page_image = render_document_page(source_path, page_number=page_number, dpi=pdf_dpi)
@@ -75,6 +143,13 @@ def ingest_student_document(
         regions = load_regions_from_sidecar(sidecar_path)
     elif backend == "trocr":
         regions = transcribe_regions(normalized_page, rubric, model_name=model_name)
+    elif backend in {"hybrid", "auto"}:
+        regions = transcribe_regions_hybrid(
+            normalized_page,
+            rubric,
+            model_name=model_name,
+            reference_text=reference_text,
+        )
     else:
         raise ValueError(f"Unsupported backend: {backend}")
 
@@ -143,6 +218,416 @@ def transcribe_regions(image: Image.Image, rubric: Rubric, model_name: str) -> L
             )
         )
     return regions
+
+
+def transcribe_regions_hybrid(
+    image: Image.Image,
+    rubric: Rubric,
+    model_name: str,
+    reference_text: Optional[str] = None,
+) -> List[Region]:
+    hints = build_reference_hints(rubric, reference_text or "")
+    detected_lines = detect_lines_with_easyocr(image)
+    if not detected_lines:
+        return transcribe_regions(image, rubric, model_name=model_name)
+
+    recognizer: Optional[TrOCRTranscriber] = None
+    regions: List[Region] = []
+
+    for line in detected_lines:
+        easy_text = cleanup_transcription_text(line.text)
+        easy_text = canonicalize_text(easy_text, hints)
+        easy_score = candidate_alignment_score(easy_text, hints)
+
+        trocr_text = ""
+        trocr_confidence = 0.0
+        if easy_score < 0.66:
+            if recognizer is None:
+                recognizer = TrOCRTranscriber(model_name=model_name)
+            crop = crop_box(image, line.bbox, padding=12)
+            trocr_text, trocr_confidence = recognizer.transcribe(crop)
+            trocr_text = canonicalize_text(cleanup_transcription_text(trocr_text), hints)
+
+        chosen_text, chosen_confidence, chosen_source = select_best_line_text(
+            easy_text=easy_text,
+            easy_confidence=line.confidence,
+            trocr_text=trocr_text,
+            trocr_confidence=trocr_confidence,
+            hints=hints,
+        )
+        if not chosen_text or len(normalize_text(chosen_text)) < 2:
+            continue
+        if looks_like_prompt(chosen_text, rubric.question_text, line.bbox[1], image.height):
+            continue
+
+        metadata: Dict[str, object] = {
+            "line_index": line.line_index,
+            "column_index": line.column_index,
+            "ocr_confidence": round(chosen_confidence, 4),
+            "transcription_backend": f"hybrid:{chosen_source}",
+            "easyocr_text": easy_text,
+        }
+        if trocr_text:
+            metadata["trocr_text"] = trocr_text
+        diagram_segments = extract_diagram_segments(chosen_text)
+        if diagram_segments:
+            metadata["diagram_segments"] = diagram_segments
+        regions.append(
+            Region(
+                region_id=f"n{len(regions) + 1}",
+                bbox=line.bbox,
+                text=chosen_text,
+                metadata=metadata,
+            )
+        )
+
+    if not regions:
+        return transcribe_regions(image, rubric, model_name=model_name)
+    return merge_line_regions(regions)
+
+
+def select_best_line_text(
+    easy_text: str,
+    easy_confidence: float,
+    trocr_text: str,
+    trocr_confidence: float,
+    hints: ReferenceHints,
+) -> Tuple[str, float, str]:
+    best_text = easy_text
+    best_confidence = easy_confidence
+    best_source = "easyocr"
+    best_score = candidate_alignment_score(easy_text, hints) + (0.1 * easy_confidence)
+
+    if trocr_text:
+        trocr_score = candidate_alignment_score(trocr_text, hints) + (0.1 * trocr_confidence)
+        if trocr_score > best_score + 0.03 or (len(normalize_text(trocr_text)) > len(normalize_text(best_text)) and trocr_score >= best_score):
+            best_text = trocr_text
+            best_confidence = trocr_confidence
+            best_source = "trocr"
+            best_score = trocr_score
+
+    return best_text, best_confidence, best_source
+
+
+def build_reference_hints(rubric: Rubric, reference_text: str) -> ReferenceHints:
+    snippets: List[str] = []
+    seeds = [rubric.question_text, *[item.description for item in rubric.items], *extract_reference_snippets(reference_text)]
+    for seed in seeds:
+        cleaned = cleanup_transcription_text(seed)
+        if not cleaned:
+            continue
+        if not contains_code_hint(cleaned):
+            continue
+        if any(similarity_score(cleaned, existing) >= 0.94 for existing in snippets):
+            continue
+        snippets.append(cleaned)
+
+    lexicon = set(COMMON_LEXICON)
+    for snippet in snippets:
+        for token in re.findall(r"[a-zA-Z_][a-zA-Z0-9_]*", snippet):
+            normalized = token.lower()
+            if len(normalized) >= 3:
+                lexicon.add(normalized)
+
+    return ReferenceHints(snippets=snippets, lexicon=sorted(lexicon))
+
+
+def extract_reference_snippets(reference_text: str) -> List[str]:
+    if not reference_text:
+        return []
+
+    compact = " ".join(reference_text.replace("\r", "\n").split())
+    snippets: List[str] = []
+
+    explicit_patterns = [
+        r"Enqueue[_ ]ORDeque\s*\([^)]*\)",
+        r"Dequeue[_ ]ORDeque\s*\([^)]*\)",
+        r"IsFull\s*\([^)]*\)",
+        r"If\s*\(isFull\s*\(Q\)\)\s*Print\s*\([^)]*\)\s*;?\s*Return",
+        r"If\s*\(front\s*=\s*rear\)",
+        r"Print\s*\(\"?Q\s+is\s+empty\"?\)",
+        r"X\s*=\s*Q\[rear\]",
+        r"Q\[rear\]\s*=\s*X",
+        r"Q\[front\]\s*=\s*X",
+        r"If\s*\(rear\s*=\s*Q\.size\)",
+        r"If\s*\(rear\s*=\s*1\)",
+        r"If\s*\(front\s*=\s*1\)",
+        r"Return\s*\(True\)",
+        r"Else\s*Return\s*\(false\)",
+        r"If\s*\(front\s*=\s*rear\s*1\)\s*or\s*\(\(front\s*=\s*1\)\s*and\s*\(rear\s*=\s*Q\.size\)\)",
+    ]
+    for pattern in explicit_patterns:
+        for match in re.findall(pattern, compact, flags=re.IGNORECASE):
+            cleaned = cleanup_transcription_text(match)
+            if cleaned and all(similarity_score(cleaned, existing) < 0.94 for existing in snippets):
+                snippets.append(cleaned)
+
+    parts = re.split(
+        r"(?i)(?=enqueue[_ ]ordeque)|(?=dequeue[_ ]ordeque)|(?=isfull\s*\()|(?=if\s*\()|(?=else\b)|(?=return\b)|(?=print\s*\()|(?=q\[[a-z]+\])",
+        compact,
+    )
+    for part in parts:
+        cleaned = cleanup_transcription_text(part)
+        if not cleaned or len(cleaned) < 4:
+            continue
+        if "marking scheme" in cleaned.lower():
+            continue
+        if not contains_code_hint(cleaned):
+            continue
+        if len(cleaned) > 180:
+            cleaned = cleaned[:180].rsplit(" ", 1)[0]
+        if any(similarity_score(cleaned, existing) >= 0.94 for existing in snippets):
+            continue
+        snippets.append(cleaned)
+    return snippets
+
+
+def detect_lines_with_easyocr(image: Image.Image) -> List[DetectedLine]:
+    reader = _get_easyocr_reader()
+    results = reader.readtext(np.asarray(image), detail=1, paragraph=False)
+    words: List[Dict[str, float | int | str]] = []
+    for box, text, confidence in results:
+        cleaned = cleanup_transcription_text(str(text))
+        xs = [point[0] for point in box]
+        ys = [point[1] for point in box]
+        x1, x2 = int(min(xs)), int(max(xs))
+        y1, y2 = int(min(ys)), int(max(ys))
+        width = x2 - x1
+        height = y2 - y1
+        if not cleaned:
+            continue
+        if width < 15 or height < 10:
+            continue
+        if confidence < 0.02 and width < 30:
+            continue
+        words.append(
+            {
+                "text": cleaned,
+                "confidence": float(confidence),
+                "x1": x1,
+                "x2": x2,
+                "y1": y1,
+                "y2": y2,
+                "xc": (x1 + x2) / 2.0,
+                "yc": (y1 + y2) / 2.0,
+                "height": height,
+            }
+        )
+
+    if not words:
+        return []
+
+    boundaries = infer_column_boundaries(words, image.width)
+    detected_lines: List[DetectedLine] = []
+    next_line_index = 1
+
+    for column_index, (col_left, col_right) in enumerate(boundaries):
+        column_words = [word for word in words if col_left <= float(word["xc"]) < col_right]
+        if not column_words:
+            continue
+        median_height = float(np.median([float(word["height"]) for word in column_words]))
+        line_threshold = max(18.0, median_height * 0.9)
+        grouped: List[Dict[str, object]] = []
+
+        for word in sorted(column_words, key=lambda item: (float(item["yc"]), int(item["x1"]))):
+            placed = False
+            for group in reversed(grouped[-4:]):
+                if abs(float(word["yc"]) - float(group["yc"])) <= line_threshold:
+                    group["words"].append(word)
+                    ys = [float(entry["yc"]) for entry in group["words"]]
+                    group["yc"] = sum(ys) / len(ys)
+                    placed = True
+                    break
+            if not placed:
+                grouped.append({"yc": float(word["yc"]), "words": [word]})
+
+        for group in grouped:
+            line_words = sorted(group["words"], key=lambda item: int(item["x1"]))
+            text = " ".join(str(word["text"]) for word in line_words)
+            x1 = max(0, min(int(word["x1"]) for word in line_words) - 12)
+            y1 = max(0, min(int(word["y1"]) for word in line_words) - 10)
+            x2 = min(image.width - 1, max(int(word["x2"]) for word in line_words) + 12)
+            y2 = min(image.height - 1, max(int(word["y2"]) for word in line_words) + 10)
+            confidence = float(np.mean([float(word["confidence"]) for word in line_words]))
+            detected_lines.append(
+                DetectedLine(
+                    bbox=(x1, y1, x2, y2),
+                    text=text,
+                    confidence=confidence,
+                    column_index=column_index,
+                    line_index=next_line_index,
+                )
+            )
+            next_line_index += 1
+
+    return sorted(detected_lines, key=lambda item: (item.column_index, item.bbox[1], item.bbox[0]))
+
+
+def infer_column_boundaries(words: Sequence[Dict[str, float | int | str]], image_width: int) -> List[Tuple[int, int]]:
+    if len(words) < 8:
+        return [(0, image_width)]
+
+    centers = sorted(float(word["xc"]) for word in words)
+    best_gap = 0.0
+    best_boundary: Optional[float] = None
+    for index in range(4, len(centers) - 4):
+        gap = centers[index] - centers[index - 1]
+        boundary = (centers[index] + centers[index - 1]) / 2.0
+        if image_width * 0.22 <= boundary <= image_width * 0.78 and gap > best_gap:
+            left_count = sum(1 for center in centers if center < boundary)
+            right_count = len(centers) - left_count
+            if left_count >= 4 and right_count >= 4:
+                best_gap = gap
+                best_boundary = boundary
+
+    if best_boundary is not None and best_gap >= image_width * 0.12:
+        boundary = int(best_boundary)
+        return [(0, boundary), (boundary, image_width)]
+    return [(0, image_width)]
+
+
+def cleanup_transcription_text(text: str) -> str:
+    cleaned = text.replace("\r", " ").replace("\n", " ")
+    replacements = {
+        "Q_is": "Q is",
+        "Qis": "Q is",
+        "Qetuh": "Return",
+        "Qexlh": "Return",
+        "Elce": "Else",
+        "elve": "else",
+        "YeAY": "rear",
+        "YeY": "rear",
+        "Yea": "rear",
+        "Renr": "rear",
+        "REQUENE": "Dequeue",
+        "Dequeld": "Deque",
+    }
+    for source, target in replacements.items():
+        cleaned = cleaned.replace(source, target)
+    cleaned = re.sub(r"\s+", " ", cleaned).strip(" `\"'")
+    return cleaned
+
+
+def canonicalize_text(text: str, hints: ReferenceHints) -> str:
+    if not text:
+        return ""
+    corrected = correct_tokens(text, hints.lexicon)
+    snapped_text, snapped_score = snap_to_reference_snippet(corrected, hints.snippets)
+    if snapped_score >= 0.88:
+        return snapped_text
+    if is_header_text(snapped_text) and snapped_score >= 0.58:
+        return snapped_text
+    if snapped_score >= 0.8 and len(normalize_text(corrected).split()) >= 3:
+        return snapped_text
+    return corrected
+
+
+def correct_tokens(text: str, lexicon: Sequence[str]) -> str:
+    if not text:
+        return ""
+    if not lexicon:
+        return text
+
+    def replace(match: re.Match[str]) -> str:
+        token = match.group(0)
+        lowered = token.lower()
+        if len(lowered) < 3 or lowered in TOKEN_BLACKLIST or lowered in lexicon:
+            return token
+        candidate = max(lexicon, key=lambda word: SequenceMatcher(None, lowered, word).ratio())
+        if SequenceMatcher(None, lowered, candidate).ratio() >= 0.79:
+            return candidate
+        return token
+
+    return re.sub(r"[A-Za-z_][A-Za-z0-9_]*", replace, text)
+
+
+def snap_to_reference_snippet(text: str, snippets: Sequence[str]) -> Tuple[str, float]:
+    if not text or not snippets:
+        return text, 0.0
+    best = max(snippets, key=lambda snippet: similarity_score(text, snippet))
+    return best, similarity_score(text, best)
+
+
+def candidate_alignment_score(text: str, hints: ReferenceHints) -> float:
+    if not text:
+        return 0.0
+    normalized = normalize_text(text)
+    if not normalized:
+        return 0.0
+    if not hints.snippets:
+        return 0.3
+
+    best_similarity = max(similarity_score(text, snippet) for snippet in hints.snippets)
+    best_overlap = max(overlap_score(text, snippet) for snippet in hints.snippets)
+    token_hits = sum(1 for token in normalized.split() if token in hints.lexicon)
+    keyword_score = min(1.0, token_hits / 4.0)
+    return (0.4 * best_similarity) + (0.4 * best_overlap) + (0.2 * keyword_score)
+
+
+def similarity_score(text_a: str, text_b: str) -> float:
+    return SequenceMatcher(None, normalize_text(text_a), normalize_text(text_b)).ratio()
+
+
+def contains_code_hint(text: str) -> bool:
+    normalized = normalize_text(text)
+    return any(keyword in normalized for keyword in CODE_HINT_KEYWORDS)
+
+
+def is_header_text(text: str) -> bool:
+    normalized = normalize_text(text)
+    return any(keyword in normalized for keyword in ["enqueue", "dequeue", "isfull", "ordeque"])
+
+
+def merge_line_regions(regions: Sequence[Region]) -> List[Region]:
+    if not regions:
+        return []
+
+    sorted_regions = sorted(
+        regions,
+        key=lambda region: (
+            int(region.metadata.get("column_index", 0)),
+            region.bbox[1],
+            region.bbox[0],
+        ),
+    )
+    grouped: List[List[Region]] = [[sorted_regions[0]]]
+
+    for region in sorted_regions[1:]:
+        current = grouped[-1]
+        previous = current[-1]
+        previous_column = int(previous.metadata.get("column_index", 0))
+        current_column = int(region.metadata.get("column_index", 0))
+        vertical_gap = region.bbox[1] - previous.bbox[3]
+        if current_column != previous_column or vertical_gap > 70 or is_header_text(region.text):
+            grouped.append([region])
+        else:
+            current.append(region)
+
+    merged: List[Region] = []
+    for index, group in enumerate(grouped, start=1):
+        if len(group) == 1:
+            single = group[0]
+            single.region_id = f"n{index}"
+            merged.append(single)
+            continue
+
+        bbox = (
+            min(region.bbox[0] for region in group),
+            min(region.bbox[1] for region in group),
+            max(region.bbox[2] for region in group),
+            max(region.bbox[3] for region in group),
+        )
+        merged_text = " ".join(region.text for region in group)
+        confidences = [float(region.metadata.get("ocr_confidence", 0.0)) for region in group]
+        metadata = {
+            "line_span": [int(group[0].metadata.get("line_index", 0)), int(group[-1].metadata.get("line_index", 0))],
+            "column_index": int(group[0].metadata.get("column_index", 0)),
+            "ocr_confidence": round(float(np.mean(confidences)) if confidences else 0.0, 4),
+            "transcription_backend": group[0].metadata.get("transcription_backend", "hybrid"),
+        }
+        merged.append(Region(region_id=f"n{index}", bbox=bbox, text=merged_text, metadata=metadata))
+
+    return sorted(merged, key=lambda region: (region.bbox[1], region.bbox[0]))
 
 
 def load_regions_from_sidecar(sidecar_path: Path) -> List[Region]:

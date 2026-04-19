@@ -12,7 +12,7 @@ SRC_ROOT = PROJECT_ROOT / "03_code" / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from scoremap.answer_key_ingest import parse_answer_key_file, write_rubrics
+from scoremap.answer_key_ingest import parse_answer_key_text, read_answer_key_text, write_rubrics
 from scoremap.pipeline import ScoreMapPipeline, load_answer_sample, load_rubric, resolve_image_path
 from scoremap.render import export_prediction_json, render_overlay
 from scoremap.schema import Rubric
@@ -26,7 +26,7 @@ def main() -> None:
     parser.add_argument("--qid", default=None, help="Question id to grade when the answer key contains multiple questions.")
     parser.add_argument("--output-dir", required=True, help="Directory where parsed rubrics, ingested answer JSON, and predictions will be written.")
     parser.add_argument("--variant", choices=["generic", "no_graph", "scoremap"], default="scoremap")
-    parser.add_argument("--backend", choices=["trocr", "regions_json"], default="trocr")
+    parser.add_argument("--backend", choices=["hybrid", "auto", "trocr", "regions_json"], default="hybrid")
     parser.add_argument("--model-name", default="microsoft/trocr-base-handwritten")
     parser.add_argument("--sidecar", default=None, help="Sidecar answer/region JSON for the regions_json backend.")
     parser.add_argument("--sample-id", default=None)
@@ -37,7 +37,7 @@ def main() -> None:
     output_dir = Path(args.output_dir).resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    rubric = select_rubric(Path(args.answer_key).resolve(), output_dir / "parsed_rubrics", args.qid)
+    rubric, reference_text = select_rubric(Path(args.answer_key).resolve(), output_dir / "parsed_rubrics", args.qid)
     answer_path = ingest_student_document(
         source_path=Path(args.document).resolve(),
         rubric=rubric,
@@ -48,6 +48,7 @@ def main() -> None:
         backend=args.backend,
         model_name=args.model_name,
         sidecar_path=Path(args.sidecar).resolve() if args.sidecar else None,
+        reference_text=reference_text,
     )
     answer = load_answer_sample(answer_path)
     pipeline = ScoreMapPipeline.from_config(PROJECT_ROOT / "03_code" / "configs" / "default.yaml", args.variant)
@@ -69,19 +70,21 @@ def main() -> None:
     print(json.dumps(summary, indent=2))
 
 
-def select_rubric(answer_key_path: Path, parsed_output_dir: Path, qid: str | None) -> Rubric:
+def select_rubric(answer_key_path: Path, parsed_output_dir: Path, qid: str | None) -> tuple[Rubric, str]:
     if answer_key_path.suffix.lower() == ".json":
-        return load_rubric(answer_key_path)
+        raw_text = answer_key_path.read_text(encoding="utf-8")
+        return load_rubric(answer_key_path), raw_text
 
-    rubrics = parse_answer_key_file(answer_key_path)
+    raw_text = read_answer_key_text(answer_key_path)
+    rubrics = parse_answer_key_text(raw_text)
     write_rubrics(rubrics, parsed_output_dir)
     if len(rubrics) == 1:
-        return rubrics[0]
+        return rubrics[0], raw_text
 
     if qid:
         for rubric in rubrics:
             if rubric.qid.lower() == qid.lower():
-                return rubric
+                return rubric, raw_text
         raise ValueError(f"Question id {qid} was not found in {answer_key_path}.")
 
     available = ", ".join(rubric.qid for rubric in rubrics)

@@ -1,0 +1,199 @@
+{
+  "sample_id": "student_answer",
+  "qid": "Q4",
+  "total_score": 8.0,
+  "max_marks": 14.0,
+  "review_flag": true,
+  "item_results": [
+    {
+      "item_id": "r1",
+      "hit": true,
+      "score": 1.0,
+      "confidence": 0.5772,
+      "evidence_node_ids": [
+        "n2"
+      ],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r2",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.4691,
+      "evidence_node_ids": [],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r3",
+      "hit": true,
+      "score": 1.0,
+      "confidence": 0.6029,
+      "evidence_node_ids": [
+        "n1"
+      ],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r4",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.4776,
+      "evidence_node_ids": [],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r5",
+      "hit": true,
+      "score": 3.0,
+      "confidence": 0.6452,
+      "evidence_node_ids": [
+        "n1"
+      ],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r6",
+      "hit": true,
+      "score": 3.0,
+      "confidence": 0.6339,
+      "evidence_node_ids": [
+        "n1"
+      ],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r7",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.445,
+      "evidence_node_ids": [],
+      "rationale": "Matched ordered procedural evidence."
+    },
+    {
+      "item_id": "r8",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.4517,
+      "evidence_node_ids": [],
+      "rationale": "Matched ordered procedural evidence."
+    }
+  ],
+  "typed_evidence_graph": {
+    "nodes": [
+      {
+        "id": "n2",
+        "type": "code",
+        "text": "Enqueue_ORDeque (Q,X,a) { If (front = rear) Print (\"Q is empty\") XeALsa) if lively . rear ~R = 5iz2 elre rear 2 Yer -1 Return;",
+        "bbox": [
+          695,
+          48,
+          1129,
+          683
+        ],
+        "confidence": 0.6743
+      },
+      {
+        "id": "n1",
+        "type": "code",
+        "text": "Enqueue_ORDeque (Q,X,a) { If I'm I'll believe to I'll \" I'm return ; it Clear : Q.Size ) rear Z else . rear= rear + | CxxJ <X iflacy . Q[front] = X if ( fronting . front ? ' O. size else front : front .",
+        "bbox": [
+          38,
+          78,
+          635,
+          1083
+        ],
+        "confidence": 0.6682
+      },
+      {
+        "id": "n3",
+        "type": "code",
+        "text": "insfunkers it last every t.2 , or ( I grant so , and \" ever - a sired return (x) Else Return (false)",
+        "bbox": [
+          686,
+          831,
+          1279,
+          1256
+        ],
+        "confidence": 0.5499
+      }
+    ],
+    "edges": [
+      {
+        "src": "n2",
+        "dst": "n1",
+        "relation": "reading_order"
+      },
+      {
+        "src": "n1",
+        "dst": "n3",
+        "relation": "reading_order"
+      }
+    ],
+    "rubric_alignment": [
+      {
+        "item_id": "r1",
+        "hit": true,
+        "score": 1.0,
+        "evidence": [
+          "n2"
+        ],
+        "confidence": 0.5772
+      },
+      {
+        "item_id": "r2",
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.4691
+      },
+      {
+        "item_id": "r3",
+        "hit": true,
+        "score": 1.0,
+        "evidence": [
+          "n1"
+        ],
+        "confidence": 0.6029
+      },
+      {
+        "item_id": "r4",
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.4776
+      },
+      {
+        "item_id": "r5",
+        "hit": true,
+        "score": 3.0,
+        "evidence": [
+          "n1"
+        ],
+        "confidence": 0.6452
+      },
+      {
+        "item_id": "r6",
+        "hit": true,
+        "score": 3.0,
+        "evidence": [
+          "n1"
+        ],
+        "confidence": 0.6339
+      },
+      {
+        "item_id": "r7",
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.445
+      },
+      {
+        "item_id": "r8",
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.4517
+      }
+    ]
+  }
+}

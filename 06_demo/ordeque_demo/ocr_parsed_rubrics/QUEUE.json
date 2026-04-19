@@ -1,0 +1,64 @@
+{
+  "qid": "QUEUE",
+  "question_type": "generic",
+  "question_text": "04 [14M]: An output restricted Deque front (ORDeque) is linear data structure, insert insert similar to queue, but in which insertion is delete allowed at both ends (pointed to by \"front\" and \"rear\") , whereas deletion is allowed only at one end, i.e. \"rear\" end: \"front\" points to the first free location where new element can be inserted, whereas \"rear\" points to the index of the element which should be deleted as a result of dequeue() operation: Consider the array implementation of a ORDeque with circular indexing; i.e if the queue is not full and rear points to the last index of array, Enqueue from \"rear\" end will insert the element at the first index of array: Assume array index starts from 1.",
+  "max_marks": 14.0,
+  "items": [
+    {
+      "id": "r1",
+      "type": "code",
+      "description": "Checks if front = rear and reports that the queue is empty.",
+      "marks": 1.0,
+      "required": true
+    },
+    {
+      "id": "r2",
+      "type": "code",
+      "description": "Extracts the element before updating the pointer by assigning x = Q[rear].",
+      "marks": 1.0,
+      "required": true
+    },
+    {
+      "id": "r3",
+      "type": "code",
+      "description": "Updates rear circularly after dequeue: if rear = 1 then rear = Q.size else rear = rear - 1, then returns x.",
+      "marks": 1.0,
+      "required": true
+    },
+    {
+      "id": "r4",
+      "type": "code",
+      "description": "Checks if the queue is full using isFull(Q), prints Queue Full, and returns before enqueueing.",
+      "marks": 1.0,
+      "required": true
+    },
+    {
+      "id": "r5",
+      "type": "code",
+      "description": "For a = 0, inserts from rear by circularly updating rear: if rear = Q.size then rear = 1 else rear = rear + 1, then stores x in Q[rear].",
+      "marks": 3.0,
+      "required": true
+    },
+    {
+      "id": "r6",
+      "type": "code",
+      "description": "For a = 1, inserts from front by setting Q[front] = x and circularly updating front: if front = 1 then front = Q.size else front = front - 1.",
+      "marks": 3.0,
+      "required": true
+    },
+    {
+      "id": "r7",
+      "type": "algorithm_step",
+      "description": "Checks the first ORDeque full condition and returns true when it holds.",
+      "marks": 2.0,
+      "required": true
+    },
+    {
+      "id": "r8",
+      "type": "algorithm_step",
+      "description": "Checks the second ORDeque full condition and otherwise returns false.",
+      "marks": 2.0,
+      "required": true
+    }
+  ]
+}

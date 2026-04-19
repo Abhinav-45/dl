@@ -1,0 +1,117 @@
+{
+  "sample_id": "answer_key_reference",
+  "writer_id": "student",
+  "qid": "ORQ4",
+  "question_text": "An output restricted Deque (ORDeque) is implemented using a circular array. Complete Enqueue_ORDeque(Q, x, a), Dequeue_ORDeque(Q), and IsFull(Q) for insertion at rear/front, deletion from rear, and full-queue detection.",
+  "image_path": "page.png",
+  "regions": [
+    {
+      "id": "n1",
+      "bbox": [
+        47,
+        28,
+        1029,
+        144
+      ],
+      "text": "***",
+      "metadata": {
+        "line_index": 1,
+        "ocr_confidence": 0.5757,
+        "transcription_backend": "trocr"
+      }
+    },
+    {
+      "id": "n2",
+      "bbox": [
+        45,
+        152,
+        1099,
+        241
+      ],
+      "text": "RECEIPT FOR RECEIPT FOR ORIGINAL OF RECEIPT WITH RECEIPT FOR ITEMS TO ENTER AND THE RECEIPT WITH",
+      "metadata": {
+        "line_index": 2,
+        "ocr_confidence": 0.4488,
+        "transcription_backend": "trocr"
+      }
+    },
+    {
+      "id": "n3",
+      "bbox": [
+        47,
+        262,
+        1097,
+        611
+      ],
+      "text": "THANK YOU FOR FULL",
+      "metadata": {
+        "line_index": 3,
+        "ocr_confidence": 0.3642,
+        "transcription_backend": "trocr"
+      }
+    },
+    {
+      "id": "n4",
+      "bbox": [
+        79,
+        621,
+        733,
+        640
+      ],
+      "text": "EESE INCLUSIVE OF RECEIPT FOR ANCLUSE",
+      "metadata": {
+        "line_index": 4,
+        "ocr_confidence": 0.4619,
+        "transcription_backend": "trocr"
+      }
+    },
+    {
+      "id": "n5",
+      "bbox": [
+        79,
+        648,
+        839,
+        701
+      ],
+      "text": "Q(RE#)***1",
+      "metadata": {
+        "line_index": 5,
+        "ocr_confidence": 0.4469,
+        "transcription_backend": "trocr"
+      }
+    },
+    {
+      "id": "n6",
+      "bbox": [
+        58,
+        732,
+        1070,
+        1074
+      ],
+      "text": "CASHIER RECEIPT",
+      "metadata": {
+        "line_index": 6,
+        "ocr_confidence": 0.4455,
+        "transcription_backend": "trocr"
+      }
+    },
+    {
+      "id": "n7",
+      "bbox": [
+        659,
+        1138,
+        1014,
+        1194
+      ],
+      "text": "MARKING (WHO COME: 4MTIONS): EACH FOR",
+      "metadata": {
+        "line_index": 7,
+        "ocr_confidence": 0.7972,
+        "transcription_backend": "trocr"
+      }
+    }
+  ],
+  "source_document": "C:\\Users\\ASUS\\group27_ScoreMap\\dl\\06_demo\\ordeque_demo\\answer_key_reference.png",
+  "page_number": 0,
+  "transcription_backend": "trocr"
+}

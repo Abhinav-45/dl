@@ -5,12 +5,12 @@ mentor: Replace with faculty/TA mentor
 topic_number: 21
 topic_name: Automated Grading of Handwritten CS Courses' Answer Scripts
 members:
-  - name: Replace Member 1
-    id: Replace ID 1
-    email: replace1@example.com
-  - name: Replace Member 2
-    id: Replace ID 2
-    email: replace2@example.com
-  - name: Replace Member 3
-    id: Replace ID 3
-    email: replace3@example.com
+  - name: Vulli Abhinav
+    id: 2023A7PS0653P
+    email: f20230653@pilani.bits-pilani.ac.in
+  - name: Mohit 
+    id: 2023A7PS0624P
+    email: f20230624@pilani.bits-pilani.ac.in
+  - name: Ujjwal Gupta
+    id: 2023A7PS0592P
+    email: f20230592@pilani.bits-pilani.ac.in

@@ -1,16 +1,25 @@
 # SCOREMAP Code Guide
 
-This folder now contains a full SCOREMAP pipeline with two layers:
+This repo now supports the intended end-to-end flow from only two raw inputs:
 
-- the original rubric-aligned scoring backend
-- a new ingestion layer that turns student documents and answer-key PDFs into the JSON formats the scorer expects
+1. the teacher's answer key with the question
+2. the student's handwritten answer sheet
+
+From those two files, the code now:
+
+- parses the answer key into rubric JSON
+- transcribes the handwritten answer into `answer.json`
+- runs the SCOREMAP scoring backend
+- writes `prediction.json` and `overlay.png`
 
 ## Environment
 
 Tested with:
+
 - Python `3.13`
 - `Pillow`, `numpy`, `matplotlib`, `scikit-learn`, `PyYAML`
 - `pypdf`, `PyMuPDF`
+- `easyocr`, `transformers`, `torch`
 
 Install the base dependencies:
 
@@ -18,42 +27,101 @@ Install the base dependencies:
 python -m pip install -r 03_code\requirements.txt
 ```
 
-For handwriting transcription with TrOCR, also install:
+Install the ingestion stack:
 
 ```powershell
 python -m pip install -r 03_code\requirements-ingestion.txt
 ```
 
-The first `trocr` run will download the configured Hugging Face checkpoint.
+The first raw-image run will download the OCR model files used by EasyOCR and TrOCR.
 
-## Project Layout
+## Main Scripts
 
-- `src/scoremap/`: scorer, evaluation, rendering, answer-key parsing, student-document ingestion
-- `scripts/generate_assets.py`: creates sample data, demo assets, answer-key PDF/text, admin assets, and claim files
-- `scripts/train.py`: writes the lightweight audit artifact from the writer-wise train split
-- `scripts/eval.py`: runs benchmark evaluation and regenerates report assets
-- `scripts/infer.py`: grades one existing answer JSON and exports overlays
-- `scripts/parse_answer_key.py`: parses an answer-key PDF/text file into rubric JSON files
-- `scripts/ingest_student.py`: converts a student image/PDF into an `answer.json`
-- `scripts/grade_document.py`: runs the full document -> ingest -> score -> overlay flow
-- `scripts/demo.py`: runs the original packaged scorer demo
-- `scripts/demo_e2e.py`: runs the new end-to-end ingestion demo on packaged assets
-- `configs/default.yaml`: model-variant flags for the scorer and ablations
+- `scripts/grade_document.py`
+  Full two-file pipeline. This is the primary entry point.
+- `scripts/parse_answer_key.py`
+  Parses an answer-key image/PDF/text file into rubric JSON.
+- `scripts/ingest_student.py`
+  Converts a handwritten page into the `answer.json` format.
+- `scripts/demo_e2e.py`
+  Runs the packaged ORDeque demo on the real attached example.
+- `scripts/infer.py`
+  Scores an existing `answer.json` against a rubric JSON.
+- `scripts/eval.py`
+  Runs the original benchmark evaluation.
 
-## End-to-End Data Flow
+## Primary Workflow
 
-The repo now supports this path:
+The normal workflow is now:
 
-1. `answer key PDF/text` -> parsed rubric JSON
-2. `student image/PDF` -> `answer.json` with regions/bboxes/text
-3. `answer.json + rubric.json` -> SCOREMAP scoring pipeline
-4. `prediction.json + overlay.png` for auditability
+1. raw answer-key image/PDF/text
+2. raw handwritten answer image/PDF
+3. parsed rubric JSON + ingested student JSON
+4. scored output with evidence overlay
 
-The scoring core is still the same typed-evidence/rubric-alignment model. The new modules only fill the ingestion gap.
+The scorer itself is still the same typed-evidence and rubric-alignment backend. The new work is the ingestion layer in front of it.
 
-## Exact Commands
+## Two-File Command
 
-Generate the packaged benchmark and legacy synthetic assets:
+Use this for real runs:
+
+```powershell
+python 03_code\scripts\grade_document.py --document <student_answer_image_or_pdf> --answer-key <answer_key_image_pdf_or_text> --output-dir <run_output_dir> --backend hybrid
+```
+
+If the answer key contains only one question, no `--qid` is needed. If it contains multiple questions, add `--qid`.
+
+The default `hybrid` backend does this:
+
+- OCRs image-only answer keys automatically
+- detects handwritten line regions with EasyOCR
+- runs TrOCR on difficult handwritten crops
+- uses answer-key-guided canonicalization before scoring
+
+On CPU, the first `hybrid` run can take a few minutes because both OCR models may need to initialize.
+
+## Packaged Demo
+
+The main showcase example is under `06_demo/ordeque_demo/`:
+
+- `question_reference.png`
+- `answer_key_reference.png`
+- `student_answer.jpeg`
+
+Run it with:
+
+```powershell
+python 03_code\scripts\demo_e2e.py
+```
+
+That command now uses the raw answer-key screenshot and raw handwritten answer directly.
+
+The current packaged raw-input run also works through the generic CLI:
+
+```powershell
+python 03_code\scripts\grade_document.py --document 06_demo\ordeque_demo\student_answer.jpeg --answer-key 06_demo\ordeque_demo\answer_key_reference.png --output-dir 06_demo\ordeque_demo\raw_two_file_run_v2 --backend hybrid
+```
+
+Its outputs are:
+
+- `parsed_rubrics\Q4.json`
+- `ingested\answer.json`
+- `prediction.json`
+- `overlay.png`
+
+## Deterministic Regression Path
+
+The older deterministic path is still available:
+
+```powershell
+python 03_code\scripts\demo_e2e.py --backend regions_json
+```
+
+That uses `student_answer_sidecar.json` and is useful for regression testing, but it is no longer the primary workflow.
+
+## Legacy Benchmark Commands
+
+Generate packaged benchmark assets:
 
 ```powershell
 python 03_code\scripts\generate_assets.py
@@ -65,112 +133,20 @@ Build the lightweight audit artifact:
 python 03_code\scripts\train.py
 ```
 
-Run evaluation on the writer-wise test split:
+Run evaluation:
 
 ```powershell
 python 03_code\scripts\eval.py
 ```
 
-Run one inference example from the legacy packaged answer JSON:
+Run scorer-only inference on an existing answer JSON:
 
 ```powershell
 python 03_code\scripts\infer.py --answer 04_data\sample_inputs\answers\writer03_q1.json --rubric 04_data\sample_inputs\rubrics\Q1.json --variant scoremap
 ```
 
-Parse the real ORDeque demo answer key into rubric JSON:
-
-```powershell
-python 03_code\scripts\parse_answer_key.py --input 06_demo\ordeque_demo\answer_key_structured.pdf --output-dir 06_demo\ordeque_demo\parsed_rubrics
-```
-
-Run the primary stable end-to-end demo on the real ORDeque materials:
-
-```powershell
-python 03_code\scripts\demo_e2e.py
-```
-
-This uses:
-
-- `06_demo\ordeque_demo\question_reference.png`
-- `06_demo\ordeque_demo\answer_key_reference.png`
-- `06_demo\ordeque_demo\answer_key_structured.pdf`
-- `06_demo\ordeque_demo\student_answer.jpeg`
-- `06_demo\ordeque_demo\student_answer_sidecar.json`
-
-Run the same ORDeque example through the generic CLI instead of the demo wrapper:
-
-```powershell
-python 03_code\scripts\grade_document.py --document 06_demo\ordeque_demo\student_answer.jpeg --answer-key 06_demo\ordeque_demo\answer_key_structured.pdf --qid ORQ4 --output-dir 06_demo\ordeque_demo\manual_run --backend regions_json --sidecar 06_demo\ordeque_demo\student_answer_sidecar.json
-```
-
-If you want to test live handwriting transcription instead of the stable sidecar path:
-
-```powershell
-python 03_code\scripts\demo_e2e.py --backend trocr
-```
-
-The old synthetic scorer-only demo batch is still available:
-
-```powershell
-python 03_code\scripts\demo.py
-```
-
-## Primary Demo Assets
-
-The main showcase example in this repo is now the ORDeque question under `06_demo/ordeque_demo/`.
-
-Files:
-
-- original question screenshot: `question_reference.png`
-- original answer-key screenshot: `answer_key_reference.png`
-- parser-friendly transcription of the answer key: `answer_key_structured.txt` and `answer_key_structured.pdf`
-- handwritten student answer: `student_answer.jpeg`
-- deterministic region sidecar: `student_answer_sidecar.json`
-
-The structured PDF is intentionally included because the original answer-key screenshot is image-only, while the parser expects a text-layer PDF or text file.
-
-## Answer-Key Format
-
-The most reliable path is a text-layer PDF or `.txt` file that follows the structured template emitted under `04_data/sample_inputs/answer_keys/scoremap_answer_key.pdf`.
-
-Each question block looks like:
-
-```text
-Question ID: Q1
-Question Type: definition_plus_diagram
-Question Text: Explain starvation in OS scheduling and illustrate with a Gantt chart.
-Max Marks: 5
-Item ID: r1
-Item Type: definition
-Description: States that starvation means indefinite postponement or waiting forever.
-Marks: 1
-Required: true
-Order:
-Prerequisite:
-Alternatives:
-================================================
-```
-
-The parser also has a fallback bullet-mode parser, but the structured format is what the repo verifies end to end.
-
-## Student-Document Ingestion
-
-Two ingestion backends are supported:
-
-- `trocr`: real handwriting recognition using TrOCR plus simple line segmentation
-- `regions_json`: deterministic fallback for demos/regression tests that reuses an existing answer/region JSON as the transcription sidecar
-
-For the ORDeque demo, `regions_json` is the recommended path because it is stable and auditable on the real attached handwritten page. The live `trocr` path remains available, but it is currently experimental on that sample.
-
-`trocr` works best when:
-- the input contains one question answer per page/image
-- the scan is reasonably straight and high contrast
-- the answer text is line-based rather than free-form diagrams only
-
-If the input is a PDF, SCOREMAP uses `PyMuPDF` to render the selected page before segmentation.
-
 ## Notes
 
-- The packaged dataset is still a pilot benchmark with synthetic handwritten-style pages and gold labels.
-- The new ingestion code makes the repo usable on real inputs, but the current scorer is still question-level; multi-question exam scripts should be split question by question before grading.
-- Every grading run still produces explainable outputs rather than a black-box final score.
+- The repo is now usable from the two raw input files alone, but handwriting quality still affects accuracy.
+- The current scorer is still question-level; multi-question exam scripts should be split question by question before grading.
+- Every run remains explainable: rubric JSON, ingested answer JSON, overlay, and item-wise prediction are all saved.

@@ -1,8 +1,8 @@
 {
   "sample_id": "ordeque_demo",
   "writer_id": "student_demo",
-  "qid": "ORQ4",
-  "question_text": "An output restricted Deque (ORDeque) is implemented using a circular array. Complete Enqueue_ORDeque(Q, x, a), Dequeue_ORDeque(Q), and IsFull(Q) for insertion at rear/front, deletion from rear, and full-queue detection.",
+  "qid": "Q4",
+  "question_text": "04 [14M]: An output restricted Deque front (ORDeque) is linear data structure, insert insert similar to queue, but in which insertion is delete allowed at both ends (pointed to by \"front\" and \"rear\") , whereas deletion is allowed only at one end, i.e. \"rear\" end: \"front\" points to the first free location where new element can be inserted, whereas \"rear\" points to the index of the element which should be deleted as a result of dequeue() operation: Consider the array implementation of a ORDeque with circular indexing; i.e if the queue is not full and rear points to the last index of array, Enqueue from \"rear\" end will insert the element at the first index of array: Assume array index starts from 1.",
   "image_path": "page.png",
   "regions": [
     {

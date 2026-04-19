@@ -1,0 +1,69 @@
+{
+  "sample_id": "ordeque_demo",
+  "writer_id": "student_demo",
+  "qid": "Q4",
+  "question_text": "04 [14M]: An output restricted Deque front (ORDeque) is linear data structure, insert insert similar to queue, but in which insertion is delete allowed at both ends (pointed to by \"front\" and \"rear\") , whereas deletion is allowed only at one end, i.e. \"rear\" end: \"front\" points to the first free location where new element can be inserted, whereas \"rear\" points to the index of the element which should be deleted as a result of dequeue() operation: Consider the array implementation of a ORDeque with circular indexing; i.e if the queue is not full and rear points to the last index of array, Enqueue from \"rear\" end will insert the element at the first index of array: Assume array index starts from 1.",
+  "image_path": "page.png",
+  "regions": [
+    {
+      "id": "n2",
+      "bbox": [
+        695,
+        48,
+        1129,
+        683
+      ],
+      "text": "Dequeue_ORDeque (Q) If (front = rear) Print (\"Q is empty\") XeALsa) if lively . rear ~R = 5iz2 elre rear 2 Yer -1 Return;",
+      "metadata": {
+        "line_span": [
+          15,
+          23
+        ],
+        "column_index": 1,
+        "ocr_confidence": 0.5443,
+        "transcription_backend": "hybrid:trocr"
+      }
+    },
+    {
+      "id": "n1",
+      "bbox": [
+        38,
+        78,
+        635,
+        1083
+      ],
+      "text": "Enqueue_ORDeque (Q,X,a) If I'm I'll believe to I'll \" I'm return ; it Clear : Q.Size ) rear Z else . rear= rear + | CxxJ <X iflacy . Q[front] = X if ( fronting . front ? ' O. size else front : front .",
+      "metadata": {
+        "line_span": [
+          1,
+          14
+        ],
+        "column_index": 0,
+        "ocr_confidence": 0.5239,
+        "transcription_backend": "hybrid:easyocr"
+      }
+    },
+    {
+      "id": "n3",
+      "bbox": [
+        686,
+        831,
+        1279,
+        1256
+      ],
+      "text": "insfunkers it last every t.2 , or ( I grant so , and \" ever - a sired return (x) Else Return (false)",
+      "metadata": {
+        "line_span": [
+          24,
+          29
+        ],
+        "column_index": 1,
+        "ocr_confidence": 0.5496,
+        "transcription_backend": "hybrid:trocr"
+      }
+    }
+  ],
+  "source_document": "C:\\Users\\ASUS\\group27_ScoreMap\\dl\\06_demo\\ordeque_demo\\student_answer.jpeg",
+  "page_number": 0,
+  "transcription_backend": "hybrid"
+}

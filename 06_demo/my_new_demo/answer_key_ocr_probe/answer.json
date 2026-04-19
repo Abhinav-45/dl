@@ -1,0 +1,102 @@
+{
+  "sample_id": "answer_key_structured",
+  "writer_id": "student",
+  "qid": "ORQ4",
+  "question_text": "An output restricted Deque (ORDeque) is implemented using a circular array. Complete Enqueue_ORDeque(Q, x, a), Dequeue_ORDeque(Q), and IsFull(Q) for insertion at rear/front, deletion from rear, and full-queue detection.",
+  "image_path": "page.png",
+  "regions": [
+    {
+      "id": "n1",
+      "bbox": [
+        0,
+        102,
+        1979,
+        166
+      ],
+      "text": "QBIGMJ. Consider the following functions HEAPIFM. BUILD- HEAPM. and ( L0002000008001500",
+      "metadata": {
+        "line_index": 1,
+        "ocr_confidence": 0.4867,
+        "transcription_backend": "trocr"
+      }
+    },
+    {
+      "id": "n2",
+      "bbox": [
+        18,
+        177,
+        1803,
+        220
+      ],
+      "text": "HEAP-SORTH ) Assuming that array index starts from 0 ( zero ) , there are certain errors ) in some for all these",
+      "metadata": {
+        "line_index": 2,
+        "ocr_confidence": 0.8497,
+        "transcription_backend": "trocr"
+      }
+    },
+    {
+      "id": "n3",
+      "bbox": [
+        17,
+        230,
+        1743,
+        273
+      ],
+      "text": "functions . Identify and write the statements having errors ) , and the corresponding correct statements ) .",
+      "metadata": {
+        "line_index": 3,
+        "ocr_confidence": 0.9523,
+        "transcription_backend": "trocr"
+      }
+    },
+    {
+      "id": "n4",
+      "bbox": [
+        15,
+        301,
+        1959,
+        867
+      ],
+      "text": "0 1",
+      "metadata": {
+        "line_index": 4,
+        "ocr_confidence": 0.4823,
+        "transcription_backend": "trocr"
+      }
+    },
+    {
+      "id": "n5",
+      "bbox": [
+        15,
+        881,
+        1959,
+        929
+      ],
+      "text": "Ans. Ans. B.",
+      "metadata": {
+        "line_index": 5,
+        "ocr_confidence": 0.263,
+        "transcription_backend": "trocr"
+      }
+    },
+    {
+      "id": "n6",
+      "bbox": [
+        15,
+        936,
+        1959,
+        1423
+      ],
+      "text": "1957 58",
+      "metadata": {
+        "line_index": 6,
+        "ocr_confidence": 0.293,
+        "transcription_backend": "trocr"
+      }
+    }
+  ],
+  "source_document": "C:\\Users\\ASUS\\group27_ScoreMap\\dl\\06_demo\\my_new_demo\\answer_key_structured.pdf",
+  "page_number": 0,
+  "transcription_backend": "trocr"
+}

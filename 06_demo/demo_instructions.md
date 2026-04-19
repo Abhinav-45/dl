@@ -1,18 +1,26 @@
 # Demo Instructions
 
-## Primary Demo Example
+## Primary Workflow
 
-The repo now uses the real ORDeque example as the main demo:
+The repo now supports the intended real workflow:
 
-- question paper reference: `06_demo/ordeque_demo/question_reference.png`
-- answer-key screenshot reference: `06_demo/ordeque_demo/answer_key_reference.png`
-- structured answer key for automated parsing: `06_demo/ordeque_demo/answer_key_structured.pdf`
-- handwritten student answer sheet: `06_demo/ordeque_demo/student_answer.jpeg`
-- deterministic transcription sidecar used for the live demo: `06_demo/ordeque_demo/student_answer_sidecar.json`
+- input 1: the teacher's answer key with the question
+- input 2: the student's handwritten answer sheet
+- output: parsed rubric JSON, ingested student `answer.json`, `prediction.json`, and `overlay.png`
 
-The structured PDF is a faithful transcription of the attached answer-key screenshot. It exists because the parser needs a text-layer PDF or text file, while the original screenshot is image-only.
+No structured `.txt` file or sidecar JSON is required for the normal run.
 
-## Stable Demo Command
+## Packaged Demo Example
+
+The main demo lives in `06_demo/ordeque_demo/`:
+
+- `question_reference.png`
+- `answer_key_reference.png`
+- `student_answer.jpeg`
+
+These are the real attached demo materials.
+
+## One-Command Demo
 
 Run:
 
@@ -20,46 +28,66 @@ Run:
 python 03_code\scripts\demo_e2e.py
 ```
 
-This defaults to:
+This now uses:
 
-- sample: `ordeque_demo`
-- backend: `regions_json`
+- raw answer-key image: `06_demo\ordeque_demo\answer_key_reference.png`
+- raw handwritten answer: `06_demo\ordeque_demo\student_answer.jpeg`
+- backend: `hybrid`
 
-That path is the recommended viva/demo path because it uses the real attached question/answer materials while keeping the transcription deterministic and reproducible.
+The `hybrid` backend uses:
 
-## What the Stable Demo Produces
+- EasyOCR to detect and read the answer-key image
+- EasyOCR to detect handwritten line regions
+- TrOCR on difficult handwritten crops
+- answer-key-guided canonicalization before scoring
 
-Outputs are written to:
+On a CPU-only machine, the first `hybrid` run can take a few minutes.
 
-- `06_demo/ordeque_demo/outputs/regions_json/overlay.png`
-- `06_demo/ordeque_demo/outputs/regions_json/prediction.json`
-- `06_demo/ordeque_demo/outputs/regions_json/ingested/answer.json`
-- `06_demo/ordeque_demo/outputs/regions_json/parsed_rubrics/ORQ4.json`
+## Generic Two-File Command
 
-On the current packaged sidecar, the score is `13/14` with a review flag because one rubric item remains borderline.
-
-## Suggested Viva Flow
-
-1. Open `06_demo/ordeque_demo/question_reference.png` to show the original problem statement.
-2. Open `06_demo/ordeque_demo/answer_key_reference.png` to show the teacher's answer key and marking scheme.
-3. Open `06_demo/ordeque_demo/student_answer.jpeg` to show the handwritten student submission.
-4. Run `python 03_code\scripts\demo_e2e.py`.
-5. Open `06_demo/ordeque_demo/answer_key_structured.pdf` and explain that this is the parser-friendly transcription of the answer-key screenshot.
-6. Open `06_demo/ordeque_demo/outputs/regions_json/parsed_rubrics/ORQ4.json` to show the rubric items and marks.
-7. Open `06_demo/ordeque_demo/outputs/regions_json/ingested/answer.json` to show the regionized student answer.
-8. Open `06_demo/ordeque_demo/outputs/regions_json/overlay.png` to show localized evidence.
-9. Open `06_demo/ordeque_demo/outputs/regions_json/prediction.json` to show item-wise mark decisions and rationales.
-
-## Important Note About TrOCR
-
-You can still try:
+You can run the same flow directly with:
 
 ```powershell
-python 03_code\scripts\demo_e2e.py --backend trocr
+python 03_code\scripts\grade_document.py --document 06_demo\ordeque_demo\student_answer.jpeg --answer-key 06_demo\ordeque_demo\answer_key_reference.png --output-dir 06_demo\ordeque_demo\raw_two_file_run_v2 --backend hybrid
 ```
 
-But for this real handwritten ORDeque page, TrOCR is currently not reliable enough to be the primary demo path. The `regions_json` backend is the recommended demo because it keeps the focus on answer-key parsing, structured ingestion, rubric execution, and auditable scoring.
+No `--qid` is needed here because the answer key contains only one question.
 
-## Legacy Material
+## What Gets Written
 
-The older synthetic demo samples under `06_demo/demo_inputs/` and `04_data/sample_inputs/` are still in the repo for regression testing and baseline comparisons, but they are no longer the primary showcase example.
+If you run `demo_e2e.py`, the main outputs are written under:
+
+- `06_demo\ordeque_demo\outputs\hybrid\parsed_rubrics\Q4.json`
+- `06_demo\ordeque_demo\outputs\hybrid\ingested\answer.json`
+- `06_demo\ordeque_demo\outputs\hybrid\prediction.json`
+- `06_demo\ordeque_demo\outputs\hybrid\overlay.png`
+
+If you run the generic two-file CLI above, the main outputs are:
+
+- `06_demo\ordeque_demo\raw_two_file_run_v2\parsed_rubrics\Q4.json`
+- `06_demo\ordeque_demo\raw_two_file_run_v2\ingested\answer.json`
+- `06_demo\ordeque_demo\raw_two_file_run_v2\prediction.json`
+- `06_demo\ordeque_demo\raw_two_file_run_v2\overlay.png`
+
+The current packaged raw-input run scores `8/14` on the handwritten sample.
+
+## What To Show In A Demo
+
+1. Open `question_reference.png`.
+2. Open `answer_key_reference.png`.
+3. Open `student_answer.jpeg`.
+4. Run `python 03_code\scripts\demo_e2e.py`.
+5. Open `parsed_rubrics\Q4.json` to show the answer key was parsed automatically.
+6. Open `ingested\answer.json` to show the handwritten page was converted into machine-readable regions.
+7. Open `overlay.png` to show evidence localization.
+8. Open `prediction.json` to show marks per rubric item.
+
+## Deterministic Regression Path
+
+The old deterministic demo still exists for comparison:
+
+```powershell
+python 03_code\scripts\demo_e2e.py --backend regions_json
+```
+
+That path uses `student_answer_sidecar.json` and remains useful for regression testing, but it is no longer the primary workflow.

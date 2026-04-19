@@ -1,52 +1,22 @@
 {
   "sample_id": "ordeque_demo",
-  "qid": "ORQ4",
-  "total_score": 13.0,
+  "qid": "Q4",
+  "total_score": 9.0,
   "max_marks": 14.0,
-  "review_flag": true,
+  "review_flag": false,
   "item_results": [
     {
       "item_id": "r1",
       "hit": true,
       "score": 1.0,
-      "confidence": 0.6421,
-      "evidence_node_ids": [
-        "n1"
-      ],
-      "rationale": "Matched lexical and semantic overlap."
-    },
-    {
-      "item_id": "r2",
-      "hit": true,
-      "score": 3.0,
-      "confidence": 0.7232,
-      "evidence_node_ids": [
-        "n5"
-      ],
-      "rationale": "Matched lexical and semantic overlap."
-    },
-    {
-      "item_id": "r3",
-      "hit": true,
-      "score": 3.0,
-      "confidence": 0.7572,
-      "evidence_node_ids": [
-        "n3"
-      ],
-      "rationale": "Matched lexical and semantic overlap."
-    },
-    {
-      "item_id": "r4",
-      "hit": true,
-      "score": 1.0,
-      "confidence": 0.6095,
+      "confidence": 0.5943,
       "evidence_node_ids": [
         "n4"
       ],
       "rationale": "Matched lexical and semantic overlap."
     },
     {
-      "item_id": "r5",
+      "item_id": "r2",
       "hit": false,
       "score": 0.0,
       "confidence": 0.5333,
@@ -54,7 +24,7 @@
       "rationale": "Matched lexical and semantic overlap."
     },
     {
-      "item_id": "r6",
+      "item_id": "r3",
       "hit": true,
       "score": 1.0,
       "confidence": 0.7304,
@@ -64,24 +34,50 @@
       "rationale": "Matched lexical and semantic overlap."
     },
     {
-      "item_id": "r7",
+      "item_id": "r4",
       "hit": true,
-      "score": 2.0,
-      "confidence": 0.5629,
+      "score": 1.0,
+      "confidence": 0.6421,
       "evidence_node_ids": [
-        "n6"
+        "n1"
       ],
       "rationale": "Matched lexical and semantic overlap."
     },
     {
-      "item_id": "r8",
+      "item_id": "r5",
       "hit": true,
-      "score": 2.0,
-      "confidence": 0.5812,
+      "score": 3.0,
+      "confidence": 0.7232,
       "evidence_node_ids": [
-        "n6"
+        "n5"
       ],
       "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r6",
+      "hit": true,
+      "score": 3.0,
+      "confidence": 0.7572,
+      "evidence_node_ids": [
+        "n3"
+      ],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r7",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.4824,
+      "evidence_node_ids": [],
+      "rationale": "Matched ordered procedural evidence."
+    },
+    {
+      "item_id": "r8",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.4878,
+      "evidence_node_ids": [],
+      "rationale": "Matched ordered procedural evidence."
     }
   ],
   "typed_evidence_graph": {
@@ -192,46 +188,19 @@
         "hit": true,
         "score": 1.0,
         "evidence": [
-          "n1"
+          "n4"
         ],
-        "confidence": 0.6421
+        "confidence": 0.5943
       },
       {
         "item_id": "r2",
-        "hit": true,
-        "score": 3.0,
-        "evidence": [
-          "n5"
-        ],
-        "confidence": 0.7232
-      },
-      {
-        "item_id": "r3",
-        "hit": true,
-        "score": 3.0,
-        "evidence": [
-          "n3"
-        ],
-        "confidence": 0.7572
-      },
-      {
-        "item_id": "r4",
-        "hit": true,
-        "score": 1.0,
-        "evidence": [
-          "n4"
-        ],
-        "confidence": 0.6095
-      },
-      {
-        "item_id": "r5",
         "hit": false,
         "score": 0.0,
         "evidence": [],
         "confidence": 0.5333
       },
       {
-        "item_id": "r6",
+        "item_id": "r3",
         "hit": true,
         "score": 1.0,
         "evidence": [
@@ -240,22 +209,45 @@
         "confidence": 0.7304
       },
       {
-        "item_id": "r7",
+        "item_id": "r4",
         "hit": true,
-        "score": 2.0,
+        "score": 1.0,
         "evidence": [
-          "n6"
+          "n1"
         ],
-        "confidence": 0.5629
+        "confidence": 0.6421
+      },
+      {
+        "item_id": "r5",
+        "hit": true,
+        "score": 3.0,
+        "evidence": [
+          "n5"
+        ],
+        "confidence": 0.7232
+      },
+      {
+        "item_id": "r6",
+        "hit": true,
+        "score": 3.0,
+        "evidence": [
+          "n3"
+        ],
+        "confidence": 0.7572
+      },
+      {
+        "item_id": "r7",
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.4824
       },
       {
         "item_id": "r8",
-        "hit": true,
-        "score": 2.0,
-        "evidence": [
-          "n6"
-        ],
-        "confidence": 0.5812
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.4878
       }
     ]
   }

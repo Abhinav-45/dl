@@ -1,0 +1,247 @@
+{
+  "sample_id": "student_answer",
+  "qid": "QUEUE",
+  "total_score": 0.0,
+  "max_marks": 14.0,
+  "review_flag": false,
+  "item_results": [
+    {
+      "item_id": "r1",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.2002,
+      "evidence_node_ids": [],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r2",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.199,
+      "evidence_node_ids": [],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r3",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.2069,
+      "evidence_node_ids": [],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r4",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.195,
+      "evidence_node_ids": [],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r5",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.2039,
+      "evidence_node_ids": [],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r6",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.2119,
+      "evidence_node_ids": [],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r7",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.1197,
+      "evidence_node_ids": [],
+      "rationale": "Matched ordered procedural evidence."
+    },
+    {
+      "item_id": "r8",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.1996,
+      "evidence_node_ids": [],
+      "rationale": "Matched ordered procedural evidence."
+    }
+  ],
+  "typed_evidence_graph": {
+    "nodes": [
+      {
+        "id": "n1",
+        "type": "diagram",
+        "text": "0 0",
+        "bbox": [
+          0,
+          0,
+          1279,
+          912
+        ],
+        "confidence": 0.3107
+      },
+      {
+        "id": "n2",
+        "type": "definition",
+        "text": "that's a size of",
+        "bbox": [
+          49,
+          923,
+          1279,
+          964
+        ],
+        "confidence": 0.2593
+      },
+      {
+        "id": "n3",
+        "type": "definition",
+        "text": "else . Withdrawal to",
+        "bbox": [
+          67,
+          972,
+          1279,
+          1017
+        ],
+        "confidence": 0.2113
+      },
+      {
+        "id": "n4",
+        "type": "algorithm_step",
+        "text": "# 3 transferred to Montana Pennsylvania .",
+        "bbox": [
+          0,
+          1026,
+          1279,
+          1131
+        ],
+        "confidence": 0.362
+      },
+      {
+        "id": "n5",
+        "type": "diagram",
+        "text": "\" \"",
+        "bbox": [
+          0,
+          1139,
+          1279,
+          1259
+        ],
+        "confidence": 0.2892
+      }
+    ],
+    "edges": [
+      {
+        "src": "n1",
+        "dst": "n2",
+        "relation": "reading_order"
+      },
+      {
+        "src": "n2",
+        "dst": "n3",
+        "relation": "reading_order"
+      },
+      {
+        "src": "n3",
+        "dst": "n4",
+        "relation": "reading_order"
+      },
+      {
+        "src": "n4",
+        "dst": "n5",
+        "relation": "reading_order"
+      },
+      {
+        "src": "n2",
+        "dst": "n3",
+        "relation": "same_column"
+      },
+      {
+        "src": "n2",
+        "dst": "n3",
+        "relation": "adjacent_down"
+      },
+      {
+        "src": "n2",
+        "dst": "n4",
+        "relation": "same_column"
+      },
+      {
+        "src": "n3",
+        "dst": "n4",
+        "relation": "same_column"
+      },
+      {
+        "src": "n3",
+        "dst": "n4",
+        "relation": "adjacent_down"
+      },
+      {
+        "src": "n4",
+        "dst": "n5",
+        "relation": "same_column"
+      }
+    ],
+    "rubric_alignment": [
+      {
+        "item_id": "r1",
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.2002
+      },
+      {
+        "item_id": "r2",
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.199
+      },
+      {
+        "item_id": "r3",
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.2069
+      },
+      {
+        "item_id": "r4",
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.195
+      },
+      {
+        "item_id": "r5",
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.2039
+      },
+      {
+        "item_id": "r6",
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.2119
+      },
+      {
+        "item_id": "r7",
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.1197
+      },
+      {
+        "item_id": "r8",
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.1996
+      }
+    ]
+  }
+}
