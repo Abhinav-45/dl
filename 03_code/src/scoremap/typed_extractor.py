@@ -68,7 +68,12 @@ def extract_typed_evidence(sample: AnswerSample) -> List[EvidenceNode]:
     for region in sample.regions:
         scores = _detect_type(region, sample.question_text)
         predicted_type = max(scores, key=scores.get)
-        confidence = min(0.99, scores[predicted_type])
+        base_confidence = min(0.99, scores[predicted_type])
+        ocr_confidence = region.metadata.get("ocr_confidence")
+        if isinstance(ocr_confidence, (int, float)):
+            confidence = min(0.99, 0.7 * base_confidence + 0.3 * float(ocr_confidence))
+        else:
+            confidence = base_confidence
         nodes.append(
             EvidenceNode(
                 node_id=region.region_id,

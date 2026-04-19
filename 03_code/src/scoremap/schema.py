@@ -47,9 +47,10 @@ class AnswerSample:
     question_text: str
     image_path: str
     regions: List[Region]
-    gold_total: float
-    gold_item_hits: Dict[str, bool]
-    gold_evidence: Dict[str, List[str]]
+    gold_total: Optional[float] = None
+    gold_item_hits: Dict[str, bool] = field(default_factory=dict)
+    gold_evidence: Dict[str, List[str]] = field(default_factory=dict)
+    source_path: Optional[str] = None
 
 
 @dataclass

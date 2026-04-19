@@ -1,0 +1,38 @@
+{
+  "qid": "Q1",
+  "question_type": "definition_plus_diagram",
+  "question_text": "Explain starvation in OS scheduling and illustrate with a Gantt chart.",
+  "max_marks": 5.0,
+  "items": [
+    {
+      "id": "r1",
+      "type": "definition",
+      "description": "States that starvation means indefinite postponement or waiting forever.",
+      "marks": 1.0,
+      "required": true
+    },
+    {
+      "id": "r2",
+      "type": "concept",
+      "description": "Links starvation to priority scheduling or unfair scheduling.",
+      "marks": 1.0,
+      "required": true,
+      "prerequisite": "r1"
+    },
+    {
+      "id": "r3",
+      "type": "diagram_gantt",
+      "description": "Draws a valid Gantt chart with labeled execution intervals.",
+      "marks": 2.0,
+      "required": true
+    },
+    {
+      "id": "r4",
+      "type": "final_answer",
+      "description": "Mentions aging or increasing priority as mitigation.",
+      "marks": 1.0,
+      "required": false,
+      "prerequisite": "r1"
+    }
+  ]
+}

@@ -9,7 +9,7 @@ SRC_ROOT = PROJECT_ROOT / "03_code" / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from scoremap.pipeline import ScoreMapPipeline, load_answer_sample, load_rubric
+from scoremap.pipeline import ScoreMapPipeline, load_answer_sample, load_rubric, resolve_image_path
 from scoremap.render import export_prediction_json, render_overlay
 
 
@@ -24,7 +24,7 @@ def main() -> None:
         rubric = load_rubric(PROJECT_ROOT / "04_data" / "sample_inputs" / "rubrics" / f"{answer.qid}.json")
         result = pipeline.run(answer, rubric)
         sample_out = output_dir / answer.sample_id
-        image_path = PROJECT_ROOT / "04_data" / "sample_inputs" / answer.image_path
+        image_path = resolve_image_path(answer, project_root=PROJECT_ROOT)
         render_overlay(image_path, result, sample_out / "overlay.png")
         export_prediction_json(result, sample_out / "prediction.json")
         print(f"{answer.sample_id}: {result.total_score}/{result.max_marks} review={result.review_flag}")

@@ -7,6 +7,7 @@ from pathlib import Path
 from textwrap import wrap
 from typing import Dict, List, Tuple
 
+import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 
@@ -260,18 +261,71 @@ def _render_sample_image(output_path: Path, question_text: str, regions: List[Di
     image.save(output_path)
 
 
+def _answer_key_text(rubrics: List[Dict[str, object]]) -> str:
+    lines: List[str] = ["SCOREMAP Structured Answer Key", ""]
+    for rubric in rubrics:
+        lines.extend(
+            [
+                f"Question ID: {rubric['qid']}",
+                f"Question Type: {rubric['question_type']}",
+                f"Question Text: {rubric['question_text']}",
+                f"Max Marks: {rubric['max_marks']}",
+            ]
+        )
+        for item in rubric["items"]:
+            lines.extend(
+                [
+                    f"Item ID: {item['id']}",
+                    f"Item Type: {item['type']}",
+                    f"Description: {item['description']}",
+                    f"Marks: {item['marks']}",
+                    f"Required: {str(item.get('required', False)).lower()}",
+                    f"Order: {item.get('order', '')}",
+                    f"Prerequisite: {item.get('prerequisite', '')}",
+                    f"Alternatives: {', '.join(item.get('alternatives', []))}",
+                ]
+            )
+        lines.append("=" * 48)
+        lines.append("")
+    return "\n".join(lines).strip() + "\n"
+
+
+def _write_answer_key_pdf(text: str, output_path: Path) -> None:
+    lines = text.splitlines()
+    lines_per_page = 40
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with plt.rc_context({"font.family": "monospace"}):
+        pages = [lines[idx : idx + lines_per_page] for idx in range(0, len(lines), lines_per_page)]
+        if not pages:
+            pages = [[]]
+        from matplotlib.backends.backend_pdf import PdfPages
+
+        with PdfPages(output_path) as pdf:
+            for page_lines in pages:
+                fig = plt.figure(figsize=(8.27, 11.69))
+                fig.text(0.04, 0.97, "\n".join(page_lines), va="top", ha="left", fontsize=10, family="monospace")
+                fig.patch.set_facecolor("white")
+                pdf.savefig(fig)
+                plt.close(fig)
+
+
 def build_dataset(project_root: Path) -> Dict[str, List[str]]:
     data_root = project_root / "04_data" / "sample_inputs"
     answers_dir = data_root / "answers"
     images_dir = data_root / "images"
     rubrics_dir = data_root / "rubrics"
+    answer_keys_dir = data_root / "answer_keys"
     splits_dir = data_root / "splits"
     demo_dir = project_root / "06_demo" / "demo_inputs"
-    for directory in [answers_dir, images_dir, rubrics_dir, splits_dir, demo_dir]:
+    for directory in [answers_dir, images_dir, rubrics_dir, answer_keys_dir, splits_dir, demo_dir]:
         directory.mkdir(parents=True, exist_ok=True)
 
     for rubric in RUBRICS:
         (rubrics_dir / f"{rubric['qid']}.json").write_text(json.dumps(rubric, indent=2), encoding="utf-8")
+
+    answer_key_text = _answer_key_text(RUBRICS)
+    (answer_keys_dir / "scoremap_answer_key.txt").write_text(answer_key_text, encoding="utf-8")
+    _write_answer_key_pdf(answer_key_text, answer_keys_dir / "scoremap_answer_key.pdf")
 
     split_map = {"train": [], "val": [], "test": []}
     writer_split = {"writer01": "train", "writer02": "val", "writer03": "test"}

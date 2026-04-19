@@ -1,0 +1,38 @@
+{
+  "qid": "Q2",
+  "question_type": "algorithm_plus_complexity",
+  "question_text": "Write the steps of merge sort and state its time complexity.",
+  "max_marks": 6.0,
+  "items": [
+    {
+      "id": "r1",
+      "type": "algorithm_step",
+      "description": "Divide the array into halves recursively.",
+      "marks": 2.0,
+      "required": true,
+      "order": 1
+    },
+    {
+      "id": "r2",
+      "type": "algorithm_step",
+      "description": "Merge the sorted halves in order.",
+      "marks": 2.0,
+      "required": true,
+      "order": 2
+    },
+    {
+      "id": "r3",
+      "type": "complexity",
+      "description": "States time complexity O(n log n).",
+      "marks": 1.0,
+      "required": true
+    },
+    {
+      "id": "r4",
+      "type": "complexity",
+      "description": "Mentions extra array or space complexity O(n).",
+      "marks": 1.0,
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "sample_id": "writer03_q1",
+  "qid": "Q1",
+  "total_score": 3.0,
+  "max_marks": 5.0,
+  "review_flag": false,
+  "item_results": [
+    {
+      "item_id": "r1",
+      "hit": true,
+      "score": 1.0,
+      "confidence": 0.6487,
+      "evidence_node_ids": [
+        "n1"
+      ],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r2",
+      "hit": true,
+      "score": 1.0,
+      "confidence": 0.6846,
+      "evidence_node_ids": [
+        "n2"
+      ],
+      "rationale": "Matched lexical and semantic overlap."
+    },
+    {
+      "item_id": "r3",
+      "hit": false,
+      "score": 0.0,
+      "confidence": 0.0,
+      "evidence_node_ids": [],
+      "rationale": "No diagram candidate found."
+    },
+    {
+      "item_id": "r4",
+      "hit": true,
+      "score": 1.0,
+      "confidence": 0.8427,
+      "evidence_node_ids": [
+        "n2"
+      ],
+      "rationale": "Matched lexical and semantic overlap."
+    }
+  ],
+  "typed_evidence_graph": {
+    "nodes": [
+      {
+        "id": "n1",
+        "type": "definition",
+        "text": "Starvation means the job keeps waiting .",
+        "bbox": [
+          51,
+          145,
+          423,
+          172
+        ],
+        "confidence": 0.717
+      },
+      {
+        "id": "n2",
+        "type": "final_answer",
+        "text": "aging helps by increasing priority slowly",
+        "bbox": [
+          51,
+          245,
+          430,
+          272
+        ],
+        "confidence": 0.749
+      }
+    ],
+    "edges": [
+      {
+        "src": "n1",
+        "dst": "n2",
+        "relation": "reading_order"
+      },
+      {
+        "src": "n1",
+        "dst": "n2",
+        "relation": "same_column"
+      },
+      {
+        "src": "n1",
+        "dst": "n2",
+        "relation": "adjacent_down"
+      }
+    ],
+    "rubric_alignment": [
+      {
+        "item_id": "r1",
+        "hit": true,
+        "score": 1.0,
+        "evidence": [
+          "n1"
+        ],
+        "confidence": 0.6487
+      },
+      {
+        "item_id": "r2",
+        "hit": true,
+        "score": 1.0,
+        "evidence": [
+          "n2"
+        ],
+        "confidence": 0.6846
+      },
+      {
+        "item_id": "r3",
+        "hit": false,
+        "score": 0.0,
+        "evidence": [],
+        "confidence": 0.0
+      },
+      {
+        "item_id": "r4",
+        "hit": true,
+        "score": 1.0,
+        "evidence": [
+          "n2"
+        ],
+        "confidence": 0.8427
+      }
+    ]
+  }
+}

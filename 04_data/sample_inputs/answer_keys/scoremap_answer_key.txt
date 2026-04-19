@@ -1,0 +1,229 @@
+SCOREMAP Structured Answer Key
+
+Question ID: Q1
+Question Type: definition_plus_diagram
+Question Text: Explain starvation in OS scheduling and illustrate with a Gantt chart.
+Max Marks: 5
+Item ID: r1
+Item Type: definition
+Description: States that starvation means indefinite postponement or waiting forever.
+Marks: 1
+Required: true
+Order: 
+Prerequisite: 
+Alternatives: 
+Item ID: r2
+Item Type: concept
+Description: Links starvation to priority scheduling or unfair scheduling.
+Marks: 1
+Required: true
+Order: 
+Prerequisite: r1
+Alternatives: 
+Item ID: r3
+Item Type: diagram_gantt
+Description: Draws a valid Gantt chart with labeled execution intervals.
+Marks: 2
+Required: true
+Order: 
+Prerequisite: 
+Alternatives: 
+Item ID: r4
+Item Type: final_answer
+Description: Mentions aging or increasing priority as mitigation.
+Marks: 1
+Required: false
+Order: 
+Prerequisite: r1
+Alternatives: 
+================================================
+
+Question ID: Q2
+Question Type: algorithm_plus_complexity
+Question Text: Write the steps of merge sort and state its time complexity.
+Max Marks: 6
+Item ID: r1
+Item Type: algorithm_step
+Description: Divide the array into halves recursively.
+Marks: 2
+Required: true
+Order: 1
+Prerequisite: 
+Alternatives: 
+Item ID: r2
+Item Type: algorithm_step
+Description: Merge the sorted halves in order.
+Marks: 2
+Required: true
+Order: 2
+Prerequisite: 
+Alternatives: 
+Item ID: r3
+Item Type: complexity
+Description: States time complexity O(n log n).
+Marks: 1
+Required: true
+Order: 
+Prerequisite: 
+Alternatives: 
+Item ID: r4
+Item Type: complexity
+Description: Mentions extra array or space complexity O(n).
+Marks: 1
+Required: false
+Order: 
+Prerequisite: 
+Alternatives: 
+================================================
+
+Question ID: Q3
+Question Type: code_plus_complexity
+Question Text: Write pseudocode for binary search and give its time complexity.
+Max Marks: 6
+Item ID: r1
+Item Type: code
+Description: Initializes low and high indices.
+Marks: 2
+Required: true
+Order: 
+Prerequisite: 
+Alternatives: 
+Item ID: r2
+Item Type: code
+Description: Computes mid and compares key with a[mid].
+Marks: 2
+Required: true
+Order: 
+Prerequisite: 
+Alternatives: 
+Item ID: r3
+Item Type: code
+Description: Updates low or high depending on comparison.
+Marks: 1
+Required: true
+Order: 
+Prerequisite: 
+Alternatives: 
+Item ID: r4
+Item Type: complexity
+Description: States time complexity O(log n).
+Marks: 1
+Required: true
+Order: 
+Prerequisite: 
+Alternatives: 
+================================================
+
+Question ID: Q4
+Question Type: definition_list
+Question Text: List Coffman conditions for deadlock and briefly explain any one.
+Max Marks: 5
+Item ID: r1
+Item Type: definition
+Description: Mentions mutual exclusion.
+Marks: 1
+Required: true
+Order: 
+Prerequisite: 
+Alternatives: 
+Item ID: r2
+Item Type: definition
+Description: Mentions hold and wait.
+Marks: 1
+Required: true
+Order: 
+Prerequisite: 
+Alternatives: 
+Item ID: r3
+Item Type: definition
+Description: Mentions no preemption.
+Marks: 1
+Required: true
+Order: 
+Prerequisite: 
+Alternatives: 
+Item ID: r4
+Item Type: definition
+Description: Mentions circular wait.
+Marks: 1
+Required: true
+Order: 
+Prerequisite: 
+Alternatives: 
+Item ID: r5
+Item Type: concept
+Description: Explains at least one condition in plain language.
+Marks: 1
+Required: false
+Order: 
+Prerequisite: 
+Alternatives: 
+================================================
+
+Question ID: Q5
+Question Type: graph_algorithm
+Question Text: Explain BFS traversal, write queue-based pseudocode, and state the complexity.
+Max Marks: 6
+Item ID: r1
+Item Type: definition
+Description: States that BFS visits vertices level by level.
+Marks: 1
+Required: true
+Order: 
+Prerequisite: 
+Alternatives: 
+Item ID: r2
+Item Type: code
+Description: Uses a queue to process vertices.
+Marks: 2
+Required: true
+Order: 
+Prerequisite: 
+Alternatives: 
+Item ID: r3
+Item Type: code
+Description: Marks vertices as visited before enqueueing neighbours.
+Marks: 2
+Required: true
+Order: 
+Prerequisite: 
+Alternatives: 
+Item ID: r4
+Item Type: complexity
+Description: States complexity O(V + E).
+Marks: 1
+Required: true
+Order: 
+Prerequisite: 
+Alternatives: 
+================================================
+
+Question ID: Q6
+Question Type: diagram_trace
+Question Text: Draw a Round Robin schedule with quantum 2 for processes P1, P2, P3 and comment on fairness.
+Max Marks: 5
+Item ID: r1
+Item Type: diagram_gantt
+Description: Shows a Round Robin Gantt chart with repeated process slices.
+Marks: 3
+Required: true
+Order: 
+Prerequisite: 
+Alternatives: 
+Item ID: r2
+Item Type: concept
+Description: Mentions equal time quantum or cyclic service.
+Marks: 1
+Required: true
+Order: 
+Prerequisite: 
+Alternatives: 
+Item ID: r3
+Item Type: final_answer
+Description: Comments that fairness is improved because no process waits forever.
+Marks: 1
+Required: false
+Order: 
+Prerequisite: r2
+Alternatives: 
+================================================

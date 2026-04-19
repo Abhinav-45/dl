@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import yaml
 
@@ -18,12 +18,13 @@ def load_yaml(path: Path) -> Dict[str, Any]:
 
 def load_answer_sample(path: Path) -> AnswerSample:
     payload = json.loads(path.read_text(encoding="utf-8"))
+    gold = payload.get("gold", {})
     return AnswerSample(
         sample_id=payload["sample_id"],
-        writer_id=payload["writer_id"],
-        qid=payload["qid"],
-        question_text=payload["question_text"],
-        image_path=payload["image_path"],
+        writer_id=payload.get("writer_id", "unknown"),
+        qid=payload.get("qid", "unknown"),
+        question_text=payload.get("question_text", ""),
+        image_path=payload.get("image_path", ""),
         regions=[
             Region(
                 region_id=region["id"],
@@ -34,9 +35,10 @@ def load_answer_sample(path: Path) -> AnswerSample:
             )
             for region in payload["regions"]
         ],
-        gold_total=payload["gold"]["total_score"],
-        gold_item_hits=payload["gold"]["item_hits"],
-        gold_evidence=payload["gold"]["evidence"],
+        gold_total=gold.get("total_score"),
+        gold_item_hits=gold.get("item_hits", {}),
+        gold_evidence=gold.get("evidence", {}),
+        source_path=str(path),
     )
 
 
@@ -61,6 +63,27 @@ def load_rubric(path: Path) -> Rubric:
             for item in payload["items"]
         ],
     )
+
+
+def resolve_image_path(sample: AnswerSample, project_root: Optional[Path] = None) -> Path:
+    image_path = Path(sample.image_path)
+    if image_path.is_absolute():
+        return image_path
+
+    if sample.source_path:
+        sample_dir = Path(sample.source_path).resolve().parent
+        local_candidate = (sample_dir / image_path).resolve()
+        if local_candidate.exists():
+            return local_candidate
+
+    if project_root is not None:
+        packaged_candidate = (project_root / "04_data" / "sample_inputs" / image_path).resolve()
+        if packaged_candidate.exists():
+            return packaged_candidate
+
+    if sample.source_path:
+        return (Path(sample.source_path).resolve().parent / image_path).resolve()
+    return image_path.resolve()
 
 
 def _representation(nodes: List[EvidenceNode], edges: List[GraphEdge], matches: List[ItemMatch]) -> Dict[str, Any]:

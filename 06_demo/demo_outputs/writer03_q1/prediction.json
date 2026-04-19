@@ -9,9 +9,9 @@
       "item_id": "r1",
       "hit": true,
       "score": 1,
-      "confidence": 0.5902,
+      "confidence": 0.6487,
       "evidence_node_ids": [
-        "n1"
+        "n2"
       ],
       "rationale": "Matched lexical and semantic overlap."
     },
@@ -19,9 +19,9 @@
       "item_id": "r2",
       "hit": true,
       "score": 1,
-      "confidence": 0.6501,
+      "confidence": 0.6846,
       "evidence_node_ids": [
-        "n2"
+        "n3"
       ],
       "rationale": "Matched lexical and semantic overlap."
     },
@@ -37,9 +37,9 @@
       "item_id": "r4",
       "hit": true,
       "score": 1,
-      "confidence": 0.8082,
+      "confidence": 0.8427,
       "evidence_node_ids": [
-        "n2"
+        "n3"
       ],
       "rationale": "Matched lexical and semantic overlap."
     }
@@ -49,26 +49,38 @@
       {
         "id": "n1",
         "type": "definition",
-        "text": "Starvation means the job keeps waiting.",
+        "text": "\" Questions Explain starvation in O. scheduling and illustrate",
         "bbox": [
-          58,
-          145,
-          810,
-          235
+          12,
+          39,
+          888,
+          89
         ],
-        "confidence": 0.6
+        "confidence": 0.2723
       },
       {
         "id": "n2",
+        "type": "definition",
+        "text": "Starvation means the job keeps waiting .",
+        "bbox": [
+          51,
+          145,
+          423,
+          172
+        ],
+        "confidence": 0.717
+      },
+      {
+        "id": "n3",
         "type": "final_answer",
         "text": "aging helps by increasing priority slowly",
         "bbox": [
-          58,
-          240,
-          810,
-          330
+          51,
+          245,
+          430,
+          272
         ],
-        "confidence": 0.68
+        "confidence": 0.749
       }
     ],
     "edges": [
@@ -78,13 +90,23 @@
         "relation": "reading_order"
       },
       {
-        "src": "n1",
-        "dst": "n2",
-        "relation": "same_column"
+        "src": "n2",
+        "dst": "n3",
+        "relation": "reading_order"
       },
       {
         "src": "n1",
         "dst": "n2",
+        "relation": "adjacent_down"
+      },
+      {
+        "src": "n2",
+        "dst": "n3",
+        "relation": "same_column"
+      },
+      {
+        "src": "n2",
+        "dst": "n3",
         "relation": "adjacent_down"
       }
     ],
@@ -94,18 +116,18 @@
         "hit": true,
         "score": 1,
         "evidence": [
-          "n1"
+          "n2"
         ],
-        "confidence": 0.5902
+        "confidence": 0.6487
       },
       {
         "item_id": "r2",
         "hit": true,
         "score": 1,
         "evidence": [
-          "n2"
+          "n3"
         ],
-        "confidence": 0.6501
+        "confidence": 0.6846
       },
       {
         "item_id": "r3",
@@ -119,9 +141,9 @@
         "hit": true,
         "score": 1,
         "evidence": [
-          "n2"
+          "n3"
         ],
-        "confidence": 0.8082
+        "confidence": 0.8427
       }
     ]
   }

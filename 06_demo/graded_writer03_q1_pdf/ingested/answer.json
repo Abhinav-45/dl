@@ -1,0 +1,42 @@
+{
+  "sample_id": "writer03_q1_scan",
+  "writer_id": "student",
+  "qid": "Q1",
+  "question_text": "Explain starvation in OS scheduling and illustrate with a Gantt chart.",
+  "image_path": "page.png",
+  "regions": [
+    {
+      "id": "n1",
+      "bbox": [
+        58,
+        145,
+        810,
+        235
+      ],
+      "text": "Starvation means the job keeps waiting.",
+      "metadata": {
+        "line_index": 1,
+        "transcription_backend": "regions_json"
+      },
+      "type_hint": "definition"
+    },
+    {
+      "id": "n2",
+      "bbox": [
+        58,
+        240,
+        810,
+        330
+      ],
+      "text": "aging helps by increasing priority slowly",
+      "metadata": {
+        "line_index": 2,
+        "transcription_backend": "regions_json"
+      },
+      "type_hint": "final_answer"
+    }
+  ],
+  "source_document": "C:\\Users\\ASUS\\group27_ScoreMap\\dl\\06_demo\\writer03_q1_scan.pdf",
+  "page_number": 0,
+  "transcription_backend": "regions_json"
+}

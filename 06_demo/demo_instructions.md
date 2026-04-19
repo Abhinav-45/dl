@@ -2,9 +2,12 @@
 
 ## Goal
 
-Show SCOREMAP grading a handwritten-style CS answer end-to-end in under 5 minutes.
+Show both SCOREMAP layers:
 
-## Command
+1. the original scorer on packaged answer JSON
+2. the new ingestion-to-grading pipeline that starts from an answer-key PDF and a student document
+
+## Fast Scorer Demo
 
 Run:
 
@@ -12,36 +15,48 @@ Run:
 python 03_code\scripts\demo.py
 ```
 
-## What the Demo Uses
+This uses:
 
-- Demo inputs: `06_demo/demo_inputs/`
-- Rubrics: `04_data/sample_inputs/rubrics/`
-- Generated outputs: `06_demo/demo_outputs/`
+- demo inputs: `06_demo/demo_inputs/`
+- packaged rubric JSON: `04_data/sample_inputs/rubrics/`
+- outputs: `06_demo/demo_outputs/`
+
+## Full Ingestion Demo
+
+Run:
+
+```powershell
+python 03_code\scripts\demo_e2e.py --sample writer03_q1 --backend regions_json
+```
+
+This uses:
+
+- answer-key PDF: `04_data/sample_inputs/answer_keys/scoremap_answer_key.pdf`
+- student document image: `04_data/sample_inputs/images/writer03_q1.png`
+- region sidecar for deterministic transcription: `04_data/sample_inputs/answers/writer03_q1.json`
+- outputs: `06_demo/e2e_outputs/writer03_q1/`
+
+If TrOCR is installed and the checkpoint is available, you can switch to live handwriting transcription:
+
+```powershell
+python 03_code\scripts\demo_e2e.py --sample writer03_q1 --backend trocr
+```
 
 ## Suggested Viva Flow
 
-1. Open one sample page from `06_demo/demo_inputs/`, for example `writer03_q1.png`.
-2. Run the demo command.
-3. Show the console summary with predicted score and review flag.
-4. Open the corresponding overlay image in `06_demo/demo_outputs/<sample_id>/overlay.png`.
-5. Open `prediction.json` in the same folder to show:
-   - typed evidence graph nodes
-   - rubric item hit/miss decisions
-   - evidence node ids used for each awarded item
-6. Repeat for one algorithm-heavy sample such as `writer03_q2`.
+1. Open `04_data/sample_inputs/answer_keys/scoremap_answer_key.pdf`.
+2. Explain that the parser converts this into rubric JSON automatically.
+3. Open `04_data/sample_inputs/images/writer03_q1.png`.
+4. Run the end-to-end demo command.
+5. Show `06_demo/e2e_outputs/writer03_q1/parsed_rubrics/Q1.json`.
+6. Show `06_demo/e2e_outputs/writer03_q1/ingested/answer.json`.
+7. Open `06_demo/e2e_outputs/writer03_q1/overlay.png`.
+8. Open `06_demo/e2e_outputs/writer03_q1/prediction.json`.
 
 ## Meaningful Behaviors to Highlight
 
-- region typing differs across prose, algorithm steps, complexity statements, and diagrams
-- grading is rubric-aligned instead of end-to-end black-box scoring
-- every awarded item is tied to localized evidence
-- uncertain cases raise a `review_flag`
-
-## Backup Material
-
-Backup qualitative outputs are already available under:
-
-- `06_demo/demo_outputs/`
-- `05_results/figures/`
-
-These are backup aids only and do not replace the live run required in the course guide.
+- the answer key is no longer hand-entered as rubric JSON
+- the student document is converted into region JSON before scoring
+- the scorer remains rubric-aligned and evidence-grounded
+- overlays and `prediction.json` make the score auditable
+- `trocr` is the live transcription backend, while `regions_json` is the regression-safe fallback
